@@ -1,0 +1,45 @@
+#
+#	LEAN Jupyter Docker Container 20180323
+#
+
+# Use base system for cleaning up wayward processes
+FROM quantconnect/lean:foundation
+
+MAINTAINER QuantConnect <contact@quantconnect.com>
+
+# Install Tini
+RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini && \
+    echo "1361527f39190a7338a0b434bd8c88ff7233ce7b9a4876f3315c22fce7eca1b0 *tini" | sha256sum -c - && \
+    mv tini /usr/local/bin/tini && \
+    chmod +x /usr/local/bin/tini
+
+#Install Jupyter and other packages
+RUN conda install -y jupyter && \
+    conda install -y jsonschema plotly quandl && \
+    conda clean -y --all
+
+#Install Python.NET
+RUN apt-get update && apt-get install -y clang git libglib2.0-dev && \
+    pip install --egg  git+https://github.com/QuantConnect/pythonnet
+
+# Setting some environment variables
+ENV WORK /root/Lean/Jupyter/bin/Debug
+ENV LEAN /opt/miniconda3/Lean
+ENV PYTHONPATH=${LEAN}:${PYTHONPATH}
+
+# Copy Lean files to convinient locations
+COPY ./Jupyter/bin/Debug ${LEAN}
+COPY ./Jupyter/*.ipynb ${WORK}/
+COPY ./Jupyter/config.json ${WORK}
+RUN rm -irf ${LEAN}/*Python*
+
+EXPOSE 8888
+WORKDIR $WORK
+
+ENTRYPOINT [ "/usr/local/bin/tini", "--" ]
+CMD jupyter notebook --ip='*' --port=8888 --no-browser --allow-root
+
+# Usage: 
+# docker build -t quantconnect/lean:foundation -f DockerfileLeanFoundation .
+# docker build -t quantconnect/jupyter -f DockerfileJupyter .
+# docker run -v (absolute to your data folder):/root/Lean/Data:ro quantconnect/jupyter 
