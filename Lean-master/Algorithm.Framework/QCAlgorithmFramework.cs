@@ -37,6 +37,12 @@ namespace QuantConnect.Algorithm.Framework
         private readonly ISecurityValuesProvider _securityValuesProvider;
 
         /// <summary>
+        /// Enables additional logging of framework models including:
+        /// All insights, portfolio targets, order events, and any risk management altered targets
+        /// </summary>
+        public bool DebugMode { get; set; }
+
+        /// <summary>
         /// Returns true since algorithms derived from this use the framework
         /// </summary>
         public override bool IsFrameworkAlgorithm => true;
@@ -91,6 +97,19 @@ namespace QuantConnect.Algorithm.Framework
                 AddUniverse(universe);
             }
 
+            if (DebugMode)
+            {
+                InsightsGenerated += (algorithm, data) => Log($"{Time}: {string.Join(" | ", data.Insights.OrderBy(i => i.Symbol.ToString()))}");
+            }
+
+            // emit warning message about using the framework with cash modelling
+            if (BrokerageModel.AccountType == AccountType.Cash)
+            {
+                Error("These models are currently unsuitable for Cash Modeled brokerages (e.g. GDAX) and may result in unexpected trades."
+                    + " To prevent possible user error we've restricted them to Margin trading. You can select margin account types with"
+                    + " SetBrokerage( ... AccountType.Margin)");
+            }
+
             base.PostInitialize();
         }
 
@@ -103,21 +122,66 @@ namespace QuantConnect.Algorithm.Framework
             // generate, timestamp and emit insights
             var insights = Alpha.Update(this, slice)
                 .Select(SetGeneratedAndClosedTimes)
-                .ToList();
+                .ToArray();
 
-            if (insights.Count != 0)
+            // only fire insights generated event if we actually have insights
+            if (insights.Length != 0)
             {
-                // only fire insights generated event if we actually have insights
+                // debug printing of generated insights
+                if (DebugMode)
+                {
+                    Log($"{Time}: ALPHA: {string.Join(" | ", insights.Select(i => i.ToString()).OrderBy(i => i))}");
+                }
+
                 OnInsightsGenerated(insights);
             }
 
             // construct portfolio targets from insights
-            var targets = PortfolioConstruction.CreateTargets(this, insights);
+            var targets = PortfolioConstruction.CreateTargets(this, insights).ToArray();
 
-            var riskTargetOverrides = RiskManagement.ManageRisk(this);
+            // set security targets w/ those generated via portfolio construction module
+            foreach (var target in targets)
+            {
+                var security = Securities[target.Symbol];
+                security.Holdings.Target = target;
+            }
+
+            if (DebugMode)
+            {
+                // debug printing of generated targets
+                if (targets.Length > 0)
+                {
+                    Log($"{Time}: PORTFOLIO: {string.Join(" | ", targets.Select(t => t.ToString()).OrderBy(t => t))}");
+                }
+            }
+
+            var riskTargetOverrides = RiskManagement.ManageRisk(this, targets).ToArray();
+
+            // override security targets w/ those generated via risk management module
+            foreach (var target in riskTargetOverrides)
+            {
+                var security = Securities[target.Symbol];
+                security.Holdings.Target = target;
+            }
+
+            if (DebugMode)
+            {
+                // debug printing of generated risk target overrides
+                if (riskTargetOverrides.Length > 0)
+                {
+                    Log($"{Time}: RISK: {string.Join(" | ", riskTargetOverrides.Select(t => t.ToString()).OrderBy(t => t))}");
+                }
+            }
 
             // execute on the targets, overriding targets for symbols w/ risk targets
-            Execution.Execute(this, riskTargetOverrides.Concat(targets).DistinctBy(pt => pt.Symbol));
+            var riskAdjustedTargets = riskTargetOverrides.Concat(targets).DistinctBy(pt => pt.Symbol).ToArray();
+
+            if (DebugMode && riskAdjustedTargets.Length > 0)
+            {
+                Log($"{Time}: RISK ADJUSTED TARGETS: {string.Join(" | ", riskTargetOverrides.Select(t => t.ToString()).OrderBy(t => t))}");
+            }
+
+            Execution.Execute(this, riskAdjustedTargets);
         }
 
         /// <summary>
@@ -126,6 +190,11 @@ namespace QuantConnect.Algorithm.Framework
         /// <param name="changes">Security additions/removals for this time step</param>
         public sealed override void OnFrameworkSecuritiesChanged(SecurityChanges changes)
         {
+            if (DebugMode)
+            {
+                Log($"{Time}: {changes}");
+            }
+
             Alpha.OnSecuritiesChanged(this, changes);
             PortfolioConstruction.OnSecuritiesChanged(this, changes);
             Execution.OnSecuritiesChanged(this, changes);
@@ -136,7 +205,7 @@ namespace QuantConnect.Algorithm.Framework
         /// Sets the universe selection model
         /// </summary>
         /// <param name="universeSelection">Model defining universes for the algorithm</param>
-        public void SetPortfolioSelection(IUniverseSelectionModel universeSelection)
+        public void SetUniverseSelection(IUniverseSelectionModel universeSelection)
         {
             UniverseSelection = universeSelection;
         }

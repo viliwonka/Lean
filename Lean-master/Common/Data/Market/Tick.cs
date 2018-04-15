@@ -98,7 +98,6 @@ namespace QuantConnect.Data.Market
         /// </summary>
         public Tick()
         {
-
             Value = 0;
             Time = new DateTime();
             DataType = MarketDataType.Tick;

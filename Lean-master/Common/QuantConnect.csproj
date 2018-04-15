@@ -109,7 +109,7 @@
       <HintPath>..\packages\NodaTime.1.3.4\lib\net35-Client\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="Python.Runtime, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\QuantConnect.pythonnet.1.0.5.5\lib\Python.Runtime.dll</HintPath>
+      <HintPath>..\packages\QuantConnect.pythonnet.1.0.5.7\lib\Python.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="QLNet, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\QLNet.1.9.2\lib\net45\QLNet.dll</HintPath>
@@ -131,6 +131,7 @@
     <Compile Include="AlgorithmSettings.cs" />
     <Compile Include="Algorithm\Framework\Alphas\Analysis\ReadOnlySecurityValuesCollection.cs" />
     <Compile Include="Algorithm\Framework\Alphas\IInsightManagerExtension.cs" />
+    <Compile Include="Algorithm\Framework\Alphas\InsightCollection.cs" />
     <Compile Include="Algorithm\Framework\Alphas\Serialization\InsightJsonConverter.cs" />
     <Compile Include="Algorithm\Framework\Alphas\Serialization\SerializedInsight.cs" />
     <Compile Include="Algorithm\Framework\Portfolio\IPortfolioTarget.cs" />
@@ -144,10 +145,11 @@
     <Compile Include="Algorithm\Framework\Alphas\Analysis\SecurityValues.cs" />
     <Compile Include="Algorithm\Framework\Alphas\Insight.cs" />
     <Compile Include="Algorithm\Framework\Alphas\Analysis\InsightAnalysisContext.cs" />
-    <Compile Include="Algorithm\Framework\Alphas\InsightCollection.cs" />
+    <Compile Include="Algorithm\Framework\Alphas\GeneratedInsightsCollection.cs" />
     <Compile Include="Algorithm\Framework\Alphas\Analysis\InsightManager.cs" />
     <Compile Include="Algorithm\Framework\Alphas\InsightScore.cs" />
     <Compile Include="Algorithm\Framework\Alphas\InsightScoreType.cs" />
+    <Compile Include="Algorithm\Framework\Portfolio\PortfolioTargetCollection.cs" />
     <Compile Include="AlphaRuntimeStatistics.cs" />
     <Compile Include="API\AuthenticationResponse.cs" />
     <Compile Include="API\Backtest.cs" />
@@ -173,6 +175,8 @@
     <Compile Include="Data\Custom\Intrinio\IntrinioConfig.cs" />
     <Compile Include="Data\Custom\Intrinio\IntrinioEconomicData.cs" />
     <Compile Include="Data\Custom\Intrinio\EconomicDataSources.cs" />
+    <Compile Include="Data\UniverseSelection\ITimeTriggeredUniverse.cs" />
+    <Compile Include="Data\UniverseSelection\ScheduledUniverse.cs" />
     <Compile Include="Exceptions\DllNotFoundPythonExceptionInterpreter.cs" />
     <Compile Include="Exceptions\InvalidTokenPythonExceptionInterpreter.cs" />
     <Compile Include="Exceptions\KeyErrorPythonExceptionInterpreter.cs" />
@@ -187,6 +191,7 @@
     <Compile Include="Orders\GDAXOrderProperties.cs" />
     <Compile Include="Orders\InteractiveBrokersOrderProperties.cs" />
     <Compile Include="Interfaces\IOrderProperties.cs" />
+    <Compile Include="Orders\OrderSubmissionData.cs" />
     <Compile Include="Packets\AlphaNodePacket.cs" />
     <Compile Include="Packets\AlphaResultPacket.cs" />
     <Compile Include="Python\BrokerageModelPythonWrapper.cs" />
@@ -604,12 +609,12 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\QuantConnect.pythonnet.1.0.5.5\build\QuantConnect.pythonnet.targets" Condition="Exists('..\packages\QuantConnect.pythonnet.1.0.5.5\build\QuantConnect.pythonnet.targets')" />
+  <Import Project="..\packages\QuantConnect.pythonnet.1.0.5.7\build\QuantConnect.pythonnet.targets" Condition="Exists('..\packages\QuantConnect.pythonnet.1.0.5.7\build\QuantConnect.pythonnet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\QuantConnect.pythonnet.1.0.5.5\build\QuantConnect.pythonnet.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\QuantConnect.pythonnet.1.0.5.5\build\QuantConnect.pythonnet.targets'))" />
+    <Error Condition="!Exists('..\packages\QuantConnect.pythonnet.1.0.5.7\build\QuantConnect.pythonnet.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\QuantConnect.pythonnet.1.0.5.7\build\QuantConnect.pythonnet.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

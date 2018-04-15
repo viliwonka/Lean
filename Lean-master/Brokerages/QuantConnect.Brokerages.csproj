@@ -43,6 +43,97 @@
     <Reference Include="CSharpAPI">
       <HintPath>InteractiveBrokers\CSharpAPI.dll</HintPath>
     </Reference>
+    <Reference Include="IKVM.OpenJDK.Beans, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Beans.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Charsets, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Charsets.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Corba, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Corba.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Jdbc">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Jdbc.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Management, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Media, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Misc, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Misc.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Naming, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Naming.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Remoting, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Remoting.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Security, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.SwingAWT, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.SwingAWT.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Tools">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.API, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.XML.API.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Bind">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.XML.Bind.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Crypto">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.XML.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Parse">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.XML.Parse.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Transform">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.XML.Transform.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.WebServices">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.XML.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.XPath">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.OpenJDK.XML.XPath.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Reflection">
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime.JNI, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IKVM-WithExes.7.3.4830.1\tools\IKVM.Runtime.JNI.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -100,29 +191,150 @@
     <Compile Include="GDAX\OrderBook.cs" />
     <Compile Include="IWebSocket.cs" />
     <Compile Include="GDAX\Messages.cs" />
-    <Compile Include="Kraken\DataType\KrakenOrder.cs" />
+    <Compile Include="Kraken\DataType\AssetInfo.cs" />
+    <Compile Include="Kraken\DataType\AssetPair.cs" />
+    <Compile Include="Kraken\DataType\Communication\Communication.cs" />
     <Compile Include="Kraken\DataType\FeeInfo.cs" />
+    <Compile Include="Kraken\DataType\KrakenException.cs" />
+    <Compile Include="Kraken\DataType\KrakenOrder.cs" />
     <Compile Include="Kraken\DataType\LedgerInfo.cs" />
-    <Compile Include="Kraken\DataType\PositionInfo.cs" />
-    <Compile Include="Kraken\DataType\TradeInfo.cs" />
-    <Compile Include="Kraken\DataType\OrderInfo.cs" />
+    <Compile Include="Kraken\DataType\OHLC.cs" />
+    <Compile Include="Kraken\DataType\OrderBook.cs" />
     <Compile Include="Kraken\DataType\OrderDescription.cs" />
-    <Compile Include="Kraken\DataType\TradeBalanceInfo.cs" />
+    <Compile Include="Kraken\DataType\OrderInfo.cs" />
+    <Compile Include="Kraken\DataType\PositionInfo.cs" />
     <Compile Include="Kraken\DataType\SpreadItem.cs" />
     <Compile Include="Kraken\DataType\Ticker.cs" />
-    <Compile Include="Kraken\DataType\AssetPair.cs" />
-    <Compile Include="Kraken\KrakenRestApi.cs" />
+    <Compile Include="Kraken\DataType\Trade.cs" />
+    <Compile Include="Kraken\DataType\TradeBalanceInfo.cs" />
+    <Compile Include="Kraken\DataType\TradeInfo.cs" />
     <Compile Include="Kraken\KrakenApi.cs" />
-    <Compile Include="Kraken\DataType\KrakenException.cs" />
-    <Compile Include="Kraken\DataType\Communication\Communication.cs" />
-    <Compile Include="Kraken\DataType\OrderBook.cs" />
-    <Compile Include="Kraken\DataType\OHLC.cs" />
-    <Compile Include="Kraken\DataType\AssetInfo.cs" />
     <Compile Include="Kraken\KrakenBrokerage.cs" />
     <Compile Include="Kraken\KrakenBrokerageFactory.cs" />
+    <Compile Include="Kraken\KrakenRestApi.cs" />
     <Compile Include="Kraken\KrakenSymbolMapper.cs" />
-    <Compile Include="Kraken\DataType\Trade.cs" />
     <Compile Include="Kraken\Server.cs" />
+    <Compile Include="WebSocketError.cs" />
+    <Compile Include="WebSocketMessage.cs" />
+    <Compile Include="WebSocketWrapper.cs" />
+    <Compile Include="InteractiveBrokers\Client\AccountDownloadEndEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\AccountSummaryEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\ActionSide.cs" />
+    <Compile Include="InteractiveBrokers\Client\AgentDescription.cs" />
+    <Compile Include="InteractiveBrokers\Client\BarSize.cs" />
+    <Compile Include="InteractiveBrokers\Client\HistogramDataEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\HeadTimestampEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\PnlSingleEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\PnlEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\MarketRuleEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\RerouteMktDepthReqEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\RerouteMktDataReqEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\HistoricalNewsEndEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\NewsProvidersEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\NewsArticleEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\HistoricalNewsEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickReqParamsEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\SmartComponentsEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickNewsEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\MktDepthExchangesEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\SymbolSamplesEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\FamilyCodesEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\HistoricalDataUpdateEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\OrderStatus.cs" />
+    <Compile Include="InteractiveBrokers\Client\OrderType.cs" />
+    <Compile Include="InteractiveBrokers\Client\RightType.cs" />
+    <Compile Include="InteractiveBrokers\Client\SecurityType.cs" />
+    <Compile Include="InteractiveBrokers\Client\SoftDollarTiersEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\SecurityDefinitionOptionParameterEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\CommissionReportEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\ContractDetailsEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\CurrentTimeUtcEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\DeltaNeutralValidationEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\DisplayGroupUpdatedEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\ErrorEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\ExecutionDetailsEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\FundamentalDataEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\HistoricalDataEndEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\HistoricalDataEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\ManagedAccountsEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\MarketDataTypeEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\NextValidIdEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\OpenOrderEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\OrderStatusEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\PositionEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\AccountUpdateMultiEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\RealtimeBarEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\DisplayGroupListEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\PositionMultiEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TimeInForce.cs" />
+    <Compile Include="InteractiveBrokers\Client\VerifyAndAuthCompletedEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\VerifyCompletedEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\VerifyAndAuthMessageApiEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\VerifyMessageApiEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\RequestEndEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\ReceiveFaEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickEfpEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickGenericEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickOptionComputationEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickPriceEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickSizeEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickSnapshotEndEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\TickStringEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\UpdateAccountTimeEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\UpdateAccountValueEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\UpdateMarketDepthEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\UpdateMarketDepthLevel2EventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\UpdateNewsBulletinEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\ScannerParametersEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\ScannerDataEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\Client\UpdatePortfolioEventArgs.cs" />
+    <Compile Include="InteractiveBrokers\FinancialAdvisor\Allocation.cs" />
+    <Compile Include="InteractiveBrokers\FinancialAdvisor\AllocationProfile.cs" />
+    <Compile Include="InteractiveBrokers\FinancialAdvisor\Group.cs" />
+    <Compile Include="InteractiveBrokers\FinancialAdvisor\AccountAlias.cs" />
+    <Compile Include="InteractiveBrokers\FinancialAdvisor\FinancialAdvisorConfiguration.cs" />
+    <Compile Include="InteractiveBrokers\HistoricalDataType.cs" />
+    <Compile Include="InteractiveBrokers\InteractiveBrokersAccountData.cs" />
+    <Compile Include="InteractiveBrokers\InteractiveBrokersBrokerage.cs" />
+    <Compile Include="InteractiveBrokers\InteractiveBrokersBrokerageFactory.cs" />
+    <Compile Include="InteractiveBrokers\Client\InteractiveBrokersClient.cs" />
+    <Compile Include="InteractiveBrokers\InteractiveBrokersGatewayRunner.cs" />
+    <Compile Include="InteractiveBrokers\InteractiveBrokersSymbolMapper.cs" />
+    <Compile Include="ISymbolMapper.cs" />
+    <Compile Include="Oanda\OandaRestApiBase.cs" />
+    <Compile Include="Oanda\OandaRestApiV1.cs" />
+    <Compile Include="Oanda\OandaRestApiV20.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Account.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Candle.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\AccountResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\AccountsResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\CandlesResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\InstrumentsResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\OrdersResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\PositionsResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\PostOrderResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\PricesResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\Requests\CandlesRequest.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\Requests\Request.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\Response.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\TradesResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Event.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Heartbeat.cs" />
+    <Compile Include="Oanda\RestV1\DataType\IHeartbeat.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Instrument.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Order.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Position.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Price.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Communications\RateStreamResponse.cs" />
+    <Compile Include="Oanda\RestV1\DataType\TradeData.cs" />
+    <Compile Include="Oanda\RestV1\DataType\Transaction.cs" />
+    <Compile Include="Oanda\Environment.cs" />
+    <Compile Include="Oanda\RestV1\Framework\Common.cs" />
+    <Compile Include="Oanda\RestV1\Framework\EndpointResolver.cs" />
+    <Compile Include="Oanda\OandaBrokerage.cs" />
+    <Compile Include="Oanda\OandaBrokerageFactory.cs" />
+    <Compile Include="Oanda\OandaSymbolMapper.cs" />
     <Compile Include="Oanda\RestV20\Api\DefaultApi.cs" />
     <Compile Include="Oanda\RestV20\Client\ApiClient.cs" />
     <Compile Include="Oanda\RestV20\Client\ApiException.cs" />
@@ -325,127 +537,6 @@
     <Compile Include="Oanda\RestV20\Session\PricingStreamSession.cs" />
     <Compile Include="Oanda\RestV20\Session\StreamSession.cs" />
     <Compile Include="Oanda\RestV20\Session\TransactionStreamSession.cs" />
-    <Compile Include="WebSocketError.cs" />
-    <Compile Include="WebSocketMessage.cs" />
-    <Compile Include="WebSocketWrapper.cs" />
-    <Compile Include="InteractiveBrokers\Client\AccountDownloadEndEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\AccountSummaryEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\ActionSide.cs" />
-    <Compile Include="InteractiveBrokers\Client\AgentDescription.cs" />
-    <Compile Include="InteractiveBrokers\Client\BarSize.cs" />
-    <Compile Include="InteractiveBrokers\Client\HistogramDataEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\HeadTimestampEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\PnlSingleEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\PnlEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\MarketRuleEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\RerouteMktDepthReqEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\RerouteMktDataReqEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\HistoricalNewsEndEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\NewsProvidersEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\NewsArticleEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\HistoricalNewsEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickReqParamsEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\SmartComponentsEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickNewsEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\MktDepthExchangesEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\SymbolSamplesEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\FamilyCodesEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\HistoricalDataUpdateEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\OrderStatus.cs" />
-    <Compile Include="InteractiveBrokers\Client\OrderType.cs" />
-    <Compile Include="InteractiveBrokers\Client\RightType.cs" />
-    <Compile Include="InteractiveBrokers\Client\SecurityType.cs" />
-    <Compile Include="InteractiveBrokers\Client\SoftDollarTiersEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\SecurityDefinitionOptionParameterEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\CommissionReportEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\ContractDetailsEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\CurrentTimeUtcEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\DeltaNeutralValidationEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\DisplayGroupUpdatedEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\ErrorEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\ExecutionDetailsEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\FundamentalDataEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\HistoricalDataEndEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\HistoricalDataEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\ManagedAccountsEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\MarketDataTypeEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\NextValidIdEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\OpenOrderEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\OrderStatusEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\PositionEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\AccountUpdateMultiEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\RealtimeBarEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\DisplayGroupListEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\PositionMultiEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TimeInForce.cs" />
-    <Compile Include="InteractiveBrokers\Client\VerifyAndAuthCompletedEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\VerifyCompletedEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\VerifyAndAuthMessageApiEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\VerifyMessageApiEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\RequestEndEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\ReceiveFaEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickEfpEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickGenericEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickOptionComputationEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickPriceEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickSizeEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickSnapshotEndEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\TickStringEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\UpdateAccountTimeEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\UpdateAccountValueEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\UpdateMarketDepthEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\UpdateMarketDepthLevel2EventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\UpdateNewsBulletinEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\ScannerParametersEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\ScannerDataEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\Client\UpdatePortfolioEventArgs.cs" />
-    <Compile Include="InteractiveBrokers\FinancialAdvisor\Allocation.cs" />
-    <Compile Include="InteractiveBrokers\FinancialAdvisor\AllocationProfile.cs" />
-    <Compile Include="InteractiveBrokers\FinancialAdvisor\Group.cs" />
-    <Compile Include="InteractiveBrokers\FinancialAdvisor\AccountAlias.cs" />
-    <Compile Include="InteractiveBrokers\FinancialAdvisor\FinancialAdvisorConfiguration.cs" />
-    <Compile Include="InteractiveBrokers\HistoricalDataType.cs" />
-    <Compile Include="InteractiveBrokers\InteractiveBrokersAccountData.cs" />
-    <Compile Include="InteractiveBrokers\InteractiveBrokersBrokerage.cs" />
-    <Compile Include="InteractiveBrokers\InteractiveBrokersBrokerageFactory.cs" />
-    <Compile Include="InteractiveBrokers\Client\InteractiveBrokersClient.cs" />
-    <Compile Include="InteractiveBrokers\InteractiveBrokersGatewayRunner.cs" />
-    <Compile Include="InteractiveBrokers\InteractiveBrokersSymbolMapper.cs" />
-    <Compile Include="ISymbolMapper.cs" />
-    <Compile Include="Oanda\OandaRestApiBase.cs" />
-    <Compile Include="Oanda\OandaRestApiV1.cs" />
-    <Compile Include="Oanda\OandaRestApiV20.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Account.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Candle.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\AccountResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\AccountsResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\CandlesResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\InstrumentsResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\OrdersResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\PositionsResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\PostOrderResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\PricesResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\Requests\CandlesRequest.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\Requests\Request.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\Response.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\TradesResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Event.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Heartbeat.cs" />
-    <Compile Include="Oanda\RestV1\DataType\IHeartbeat.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Instrument.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Order.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Position.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Price.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Communications\RateStreamResponse.cs" />
-    <Compile Include="Oanda\RestV1\DataType\TradeData.cs" />
-    <Compile Include="Oanda\RestV1\DataType\Transaction.cs" />
-    <Compile Include="Oanda\Environment.cs" />
-    <Compile Include="Oanda\RestV1\Framework\Common.cs" />
-    <Compile Include="Oanda\RestV1\Framework\EndpointResolver.cs" />
-    <Compile Include="Oanda\OandaBrokerage.cs" />
-    <Compile Include="Oanda\OandaBrokerageFactory.cs" />
-    <Compile Include="Oanda\OandaSymbolMapper.cs" />
     <Compile Include="Oanda\Server.cs" />
     <Compile Include="Oanda\RestV1\Session\EventsSession.cs" />
     <Compile Include="Oanda\RestV1\Session\RatesSession.cs" />
@@ -484,10 +575,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Algorithm.Java\QuantConnect.Algorithm.Java.csproj">
-      <Project>{61097e9e-eb20-4677-b394-ce0682b9d610}</Project>
-      <Name>QuantConnect.Algorithm.Java</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\QuantConnect.csproj">
       <Project>{2545c0b4-fabb-49c9-8dd1-9ad7ee23f86b}</Project>
       <Name>QuantConnect</Name>
