@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
  * QUANTCONNECT.COM - Democratizing Finance, Empowering Individuals.
  * Lean Algorithmic Trading Engine v2.0. Copyright 2014 QuantConnect Corporation.
  * 
@@ -28,23 +27,22 @@ using QuantConnect.Securities;
 using HistoryRequest = QuantConnect.Data.HistoryRequest;
 using Order = QuantConnect.Orders.Order;
 
-namespace QuantConnect.Brokerages.Oanda
-{
+namespace QuantConnect.Brokerages.Kraken {
     /// <summary>
     /// Oanda Brokerage implementation
     /// </summary>
-    public class OandaBrokerage : Brokerage, IDataQueueHandler
+    public class KrakenBrokerage : Brokerage, IDataQueueHandler
     {
-        private readonly OandaSymbolMapper _symbolMapper = new OandaSymbolMapper();
-        private readonly OandaRestApiBase _api;
+        private readonly KrakenSymbolMapper _symbolMapper;
+        private readonly KrakenApi _api;
 
         /// <summary>
         /// The maximum number of bars per historical data request
         /// </summary>
-        public const int MaxBarsPerRequest = 5000;
+        public const int MaxBarsPerRequest = 1000;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OandaBrokerage"/> class.
+        /// Initializes a new instance of the <see cref="KrakenBrokerage"/> class.
         /// </summary>
         /// <param name="orderProvider">The order provider.</param>
         /// <param name="securityProvider">The holdings provider.</param>
@@ -52,17 +50,11 @@ namespace QuantConnect.Brokerages.Oanda
         /// <param name="accessToken">The Oanda access token (can be the user's personal access token or the access token obtained with OAuth by QC on behalf of the user)</param>
         /// <param name="accountId">The account identifier.</param>
         /// <param name="agent">The Oanda agent string</param>
-        public OandaBrokerage(IOrderProvider orderProvider, ISecurityProvider securityProvider, Environment environment, string accessToken, string accountId, string agent = OandaRestApiBase.OandaAgentDefaultValue)
-            : base("Oanda Brokerage")
+        public KrakenBrokerage(IOrderProvider orderProvider, ISecurityProvider securityProvider, string accessToken, string accountId)
+            : base("Kraken Brokerage")
         {
-            if (environment != Environment.Trade && environment != Environment.Practice)
-                throw new NotSupportedException("Oanda Environment not supported: " + environment);
 
-            // Use v20 REST API only if you have a v20 account
-            // Use v1 REST API if your account id contains only digits(ie. 2534253) as it is a legacy account
-            _api = IsLegacyAccount(accountId) ? (OandaRestApiBase)
-                new OandaRestApiV1(_symbolMapper, orderProvider, securityProvider, environment, accessToken, accountId, agent) :
-                new OandaRestApiV20(_symbolMapper, orderProvider, securityProvider, environment, accessToken, accountId, agent);
+            _api = new KrakenApi(ref _symbolMapper, orderProvider, securityProvider, accessToken, accountId);
 
             // forward events received from API
             _api.OrderStatusChanged += (sender, orderEvent) => OnOrderEvent(orderEvent);
@@ -114,8 +106,6 @@ namespace QuantConnect.Brokerages.Oanda
         /// <returns>The current holdings from the account</returns>
         public override List<Holding> GetAccountHoldings()
         {
-            var holdings = _api.GetAccountHoldings();
-
             // Set MarketPrice in each Holding
             var oandaSymbols = holdings
                 .Select(x => _symbolMapper.GetBrokerageSymbol(x.Symbol))
@@ -123,6 +113,7 @@ namespace QuantConnect.Brokerages.Oanda
 
             if (oandaSymbols.Count > 0)
             {
+
                 var quotes = _api.GetRates(oandaSymbols);
                 foreach (var holding in holdings)
                 {
@@ -186,7 +177,7 @@ namespace QuantConnect.Brokerages.Oanda
         {
             if (!_symbolMapper.IsKnownLeanSymbol(request.Symbol))
             {
-                Log.Trace("OandaBrokerage.GetHistory(): Invalid symbol: {0}, no history returned", request.Symbol.Value);
+                Log.Trace("KrakenBrokerage.GetHistory(): Invalid symbol: {0}, no history returned", request.Symbol.Value);
                 yield break;
             }
 
@@ -201,6 +192,7 @@ namespace QuantConnect.Brokerages.Oanda
             // loop until last date
             while (startDateTime <= request.EndTimeUtc)
             {
+
                 // request blocks of bars at the requested resolution with a starting date/time
                 var quoteBars = _api.DownloadQuoteBars(request.Symbol, startDateTime, request.EndTimeUtc, request.Resolution, exchangeTimeZone).ToList();
                 if (quoteBars.Count == 0)
@@ -261,16 +253,6 @@ namespace QuantConnect.Brokerages.Oanda
         }
 
         /// <summary>
-        /// Retrieves the current quotes for an instrument
-        /// </summary>
-        /// <param name="instrument">the instrument to check</param>
-        /// <returns>Returns a Tick object with the current bid/ask prices for the instrument</returns>
-        public Tick GetRates(string instrument)
-        {
-            return _api.GetRates(new List<string> { instrument }).Values.First();
-        }
-
-        /// <summary>
         /// Downloads a list of TradeBars at the requested resolution
         /// </summary>
         /// <param name="symbol">The symbol</param>
@@ -298,10 +280,5 @@ namespace QuantConnect.Brokerages.Oanda
             return _api.DownloadQuoteBars(symbol, startTimeUtc, endTimeUtc, resolution, requestedTimeZone);
         }
 
-        private static bool IsLegacyAccount(string accountId)
-        {
-            long value;
-            return long.TryParse(accountId, out value);
-        }
     }
 }

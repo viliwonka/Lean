@@ -53,7 +53,7 @@ namespace QuantConnect.Algorithm
     {
         private readonly TimeKeeper _timeKeeper;
         private LocalTimeKeeper _localTimeKeeper;
-
+        
         private DateTime _startDate;   //Default start and end dates.
         private DateTime _endDate;     //Default end to yesterday
         private RunMode _runMode = RunMode.Series;

@@ -64,6 +64,7 @@ namespace QuantConnect.Notifications
                 _count++;
                 return true;
             }
+
             return false;
         }
 
