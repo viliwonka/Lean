@@ -29,7 +29,7 @@ using Order = QuantConnect.Orders.Order;
 
 namespace QuantConnect.Brokerages.Kraken {
     /// <summary>
-    /// Oanda Brokerage implementation
+    /// Kraken Brokerage implementation
     /// </summary>
     public class KrakenBrokerage : Brokerage, IDataQueueHandler
     {
@@ -44,17 +44,13 @@ namespace QuantConnect.Brokerages.Kraken {
         /// <summary>
         /// Initializes a new instance of the <see cref="KrakenBrokerage"/> class.
         /// </summary>
-        /// <param name="orderProvider">The order provider.</param>
-        /// <param name="securityProvider">The holdings provider.</param>
-        /// <param name="environment">The Oanda environment (Trade or Practice)</param>
-        /// <param name="accessToken">The Oanda access token (can be the user's personal access token or the access token obtained with OAuth by QC on behalf of the user)</param>
+        /// <param name="accessToken">The Kraken access token (can be the user's personal access token or the access token obtained with OAuth by QC on behalf of the user)</param>
         /// <param name="accountId">The account identifier.</param>
-        /// <param name="agent">The Oanda agent string</param>
-        public KrakenBrokerage(IOrderProvider orderProvider, ISecurityProvider securityProvider, string accessToken, string accountId)
+        public KrakenBrokerage(string accessToken, string accountId)
             : base("Kraken Brokerage")
         {
 
-            _api = new KrakenApi(ref _symbolMapper, orderProvider, securityProvider, accessToken, accountId);
+            _api = new KrakenApi(_symbolMapper, accessToken, accountId);
 
             // forward events received from API
             _api.OrderStatusChanged += (sender, orderEvent) => OnOrderEvent(orderEvent);
@@ -94,7 +90,7 @@ namespace QuantConnect.Brokerages.Kraken {
         /// Gets all open orders on the account. 
         /// NOTE: The order objects returned do not have QC order IDs.
         /// </summary>
-        /// <returns>The open orders returned from Oanda</returns>
+        /// <returns>The open orders returned from Kraken</returns>
         public override List<Order> GetOpenOrders()
         {
             return _api.GetOpenOrders();
@@ -106,27 +102,29 @@ namespace QuantConnect.Brokerages.Kraken {
         /// <returns>The current holdings from the account</returns>
         public override List<Holding> GetAccountHoldings()
         {
+            return new List<Holding>();
+            /*
             // Set MarketPrice in each Holding
-            var oandaSymbols = holdings
+            var KrakenSymbols = holdings
                 .Select(x => _symbolMapper.GetBrokerageSymbol(x.Symbol))
                 .ToList();
 
-            if (oandaSymbols.Count > 0)
+            if (KrakenSymbols.Count > 0)
             {
 
-                var quotes = _api.GetRates(oandaSymbols);
+                var quotes = _api.GetRates(KrakenSymbols);
                 foreach (var holding in holdings)
                 {
-                    var oandaSymbol = _symbolMapper.GetBrokerageSymbol(holding.Symbol);
+                    var KrakenSymbol = _symbolMapper.GetBrokerageSymbol(holding.Symbol);
                     Tick tick;
-                    if (quotes.TryGetValue(oandaSymbol, out tick))
+                    if (quotes.TryGetValue(KrakenSymbol, out tick))
                     {
                         holding.MarketPrice = (tick.BidPrice + tick.AskPrice) / 2;
                     }
                 }
             }
 
-            return holdings;
+            return holdings;*/
         }
 
         /// <summary>
@@ -173,17 +171,19 @@ namespace QuantConnect.Brokerages.Kraken {
         /// </summary>
         /// <param name="request">The historical data request</param>
         /// <returns>An enumerable of bars covering the span specified in the request</returns>
-        public override IEnumerable<BaseData> GetHistory(HistoryRequest request)
+        /*public override IEnumerable<BaseData> GetHistory(HistoryRequest request)
         {
+            return _api.GetHistory(req);
+
             if (!_symbolMapper.IsKnownLeanSymbol(request.Symbol))
             {
                 Log.Trace("KrakenBrokerage.GetHistory(): Invalid symbol: {0}, no history returned", request.Symbol.Value);
                 yield break;
             }
 
-            var exchangeTimeZone = MarketHoursDatabase.FromDataFolder().GetExchangeHours(Market.Oanda, request.Symbol, request.Symbol.SecurityType).TimeZone;
+            var exchangeTimeZone = MarketHoursDatabase.FromDataFolder().GetExchangeHours(Market.Kraken, request.Symbol, request.Symbol.SecurityType).TimeZone;
 
-            // Oanda only has 5-second bars, we return these for Resolution.Second
+            // Kraken only has 5-second bars, we return these for Resolution.Second
             var period = request.Resolution == Resolution.Second ? TimeSpan.FromSeconds(5) : request.Resolution.ToTimeSpan();
 
             // set the starting date/time
@@ -206,7 +206,7 @@ namespace QuantConnect.Brokerages.Kraken {
                 // calculate the next request datetime
                 startDateTime = quoteBars[quoteBars.Count - 1].Time.ConvertToUtc(exchangeTimeZone).Add(period);
             }
-        }
+        }*/
 
         #endregion
 
@@ -265,20 +265,6 @@ namespace QuantConnect.Brokerages.Kraken {
         {
             return _api.DownloadTradeBars(symbol, startTimeUtc, endTimeUtc, resolution, requestedTimeZone);
         }
-
-        /// <summary>
-        /// Downloads a list of QuoteBars at the requested resolution
-        /// </summary>
-        /// <param name="symbol">The symbol</param>
-        /// <param name="startTimeUtc">The starting time (UTC)</param>
-        /// <param name="endTimeUtc">The ending time (UTC)</param>
-        /// <param name="resolution">The requested resolution</param>
-        /// <param name="requestedTimeZone">The requested timezone for the data</param>
-        /// <returns>The list of bars</returns>
-        public IEnumerable<QuoteBar> DownloadQuoteBars(Symbol symbol, DateTime startTimeUtc, DateTime endTimeUtc, Resolution resolution, DateTimeZone requestedTimeZone)
-        {
-            return _api.DownloadQuoteBars(symbol, startTimeUtc, endTimeUtc, resolution, requestedTimeZone);
-        }
-
+        
     }
 }

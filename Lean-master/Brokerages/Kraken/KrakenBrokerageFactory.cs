@@ -54,10 +54,10 @@ namespace QuantConnect.Brokerages.Kraken {
             {
                 return new Dictionary<string, string>
                 {
-                    { "oanda-environment", Config.Get("oanda-environment") },
-                    { "oanda-access-token", Config.Get("oanda-access-token") },
-                    { "oanda-account-id", Config.Get("oanda-account-id") },
-                    { "oanda-agent", Config.Get("oanda-agent", KrakenRestApiBase.OandaAgentDefaultValue) }
+                    { "kraken-environment", Config.Get("kraken-environment") },
+                    { "kraken-access-token", Config.Get("kraken-access-token") },
+                    { "kraken-account-id", Config.Get("kraken-account-id") },
+                    { "kraken-agent", Config.Get("kraken-agent", "kraken-default-agent") }
                 };
             }
         }
@@ -76,15 +76,19 @@ namespace QuantConnect.Brokerages.Kraken {
         /// <param name="job">The job packet to create the brokerage for</param>
         /// <param name="algorithm">The algorithm instance</param>
         /// <returns>A new brokerage instance</returns>
-        public override IBrokerage CreateBrokerage(LiveNodePacket job, IAlgorithm algorithm)
-        {
+        public override IBrokerage CreateBrokerage(LiveNodePacket job, IAlgorithm algorithm) {
+            
+            var required = new[] { "kraken-access-token", "kraken-account-id" };
+
+            foreach (var item in required) {
+                if (string.IsNullOrEmpty(job.BrokerageData[item]))
+                    throw new Exception($"KrakenBrokerageFactory.CreateBrokerage: Missing {item} in config.json");
+            }
+
             var errors = new List<string>();
 
-            // read values from the brokerage data
-            var environment = Read<Environment>(job.BrokerageData, "oanda-environment", errors);
-            var accessToken = Read<string>(job.BrokerageData, "oanda-access-token", errors);
-            var accountId = Read<string>(job.BrokerageData, "oanda-account-id", errors);
-            var agent = Read<string>(job.BrokerageData, "oanda-agent", errors);
+            var accessToken = Read<string>(job.BrokerageData, "kraken-access-token", errors);
+            var accountId   = Read<string>(job.BrokerageData, "kraken-account-id", errors);
 
             if (errors.Count != 0)
             {
@@ -92,7 +96,9 @@ namespace QuantConnect.Brokerages.Kraken {
                 throw new Exception(string.Join(System.Environment.NewLine, errors));
             }
 
-            var brokerage = new KrakenBrokerage(algorithm.Transactions, algorithm.Portfolio, environment, accessToken, accountId, agent);
+            //var brokerage = new KrakenBrokerage(algorithm.Transactions, algorithm.Portfolio, environment, accessToken, accountId, agent);
+            var brokerage = new KrakenBrokerage(accessToken, accountId);
+
             Composer.Instance.AddPart<IDataQueueHandler>(brokerage);
 
             return brokerage;

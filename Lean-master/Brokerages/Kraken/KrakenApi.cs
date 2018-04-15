@@ -92,34 +92,23 @@ namespace QuantConnect.Brokerages.Kraken {
         /// </summary>
         protected KrakenSymbolMapper SymbolMapper;
 
-        /// <summary>
-        /// The order provider
-        /// </summary>
-        protected IOrderProvider OrderProvider;
-
-        /// <summary>
-        /// The security provider
-        /// </summary>
-        protected ISecurityProvider SecurityProvider;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Kraken"/> class.
         /// </summary>
         /// <param name="key">The API key.</param>
         /// <param name="secret">The API secret.</param>
         /// <param name="rateLimitMilliseconds">The rate limit in milliseconds.</param>
-        public KrakenApi(ref KrakenSymbolMapper symbolMapper, IOrderProvider orderProvider, ISecurityProvider securityProvider, string key, string secret, int rateLimitMilliseconds = 5000)
+        public KrakenApi(KrakenSymbolMapper symbolMapper, string key, string secret, int rateLimitMilliseconds = 5000)
             : base("Kraken Brokerage") {
             
             _restApi = new KrakenRestApi(key, secret, rateLimitMilliseconds);
 
             this.SymbolMapper = symbolMapper;
-            this.OrderProvider = orderProvider;
-            this.SecurityProvider = securityProvider;
-
+            
             symbolMapper = new KrakenSymbolMapper();
 
-            symbolMapper.UpdateSymbols(_restApi);
+            //symbolMapper.UpdateSymbols(_restApi);
         }
 
         #region IDataQueueHandler
@@ -489,44 +478,45 @@ namespace QuantConnect.Brokerages.Kraken {
 
             Dictionary<string, decimal> balance = _restApi.GetAccountBalance();
 
-            foreach(KeyValuePair<string,decimal> pair in balance) {
+            //CashBook.AccountCurrency == "ETH"
 
-                string asset = pair.Key;
-                decimal ammount = pair.Value;
+            List<string> pairs = new List<string>();
 
-                if(asset == "USD") {
+            StringBuilder b = new StringBuilder();
+            
+            Dictionary<string, string> pairToAsset = new Dictionary<string, string>();
 
-                    list.Add(new Cash(asset, ammount, 1));    
+            foreach(KeyValuePair<string,decimal> currency_ammount in balance) {
+
+                string asset = currency_ammount.Key;
+                decimal ammount = currency_ammount.Value;
+
+                if (asset == "ETH" || asset == "XETH") {
+
+                    list.Add(new Cash("ETH", ammount, 1));
                 }
-                else if(new[] { "EUR" }.Contains(asset)) {
+                else {
 
-                    
-                } else {
-
-                    var tick = _restApi.GetTicker();
-
-                }
+                    KeyValuePair<string, bool> pair = SymbolMapper.GetPair(asset, "ETH");
+                    // build 
+                    b.Append(pair.Key);
+                    b.Append(", ");
+                    pairToAsset[pair.Key] = asset;
+                }    
             }
 
-            // copy pasted from GDAX for example
-            /*
-            foreach (var item in JsonConvert.DeserializeObject<Messages.Account[]>(response.Content)) {
-                if (item.Balance > 0) {
+            Dictionary<string, Ticker> ticks = _restApi.GetTicker(b.ToString());
 
-                    if (item.Currency == "USD") {
-                        list.Add(new Cash(item.Currency, item.Balance, 1));
-                    }
-                    else if (new[] { "GBP", "EUR" }.Contains(item.Currency)) {
-                        var rate = GetConversionRate(item.Currency);
-                        list.Add(new Cash(item.Currency.ToUpper(), item.Balance, rate));
-                    }
-                    else {
-                        var tick = GetTick(Symbol.Create(item.Currency + "USD", SecurityType.Crypto, Market.GDAX));
+            foreach (KeyValuePair<string, Ticker> t in ticks) {
 
-                        list.Add(new Cash(item.Currency.ToUpper(), item.Balance, tick.Price));
-                    }
-                }
-            }*/
+                string asset = pairToAsset[t.Key];
+
+                decimal conversionRate = (t.Value.Ask[0] + t.Value.Bid[0]) / 2m;
+
+                Cash cash = new Cash(asset, balance[asset], conversionRate);
+
+                list.Add(cash);
+            }
 
             return list;
         }
@@ -537,6 +527,27 @@ namespace QuantConnect.Brokerages.Kraken {
         public override bool AccountInstantlyUpdated
         {
             get { return false; }
+        }
+
+        int ResolutionToInterval(Resolution res) {
+
+            switch (res) {
+
+                case Resolution.Daily:
+                    return 1440;
+                    
+                case Resolution.Hour:
+                    return 60;
+                    
+                case Resolution.Minute:
+                    return 1;
+                    
+
+                case Resolution.Second:
+                case Resolution.Tick:
+                default:
+                    throw new KrakenException("This kind of res. not supported)");
+            }
         }
 
         /// <summary>
@@ -559,27 +570,9 @@ namespace QuantConnect.Brokerages.Kraken {
 
             Resolution resolution = request.Resolution;
 
-            int interval = 1;
+            int interval = ResolutionToInterval(resolution);
 
-            switch(resolution) {
-
-                case Resolution.Daily:
-                    interval = 1440;
-                break;
-
-                case Resolution.Hour:
-                    interval = 60;
-                break;
-
-                case Resolution.Minute:
-                    interval = 1;
-                break;
-
-                case Resolution.Second:
-                case Resolution.Tick:
-                    throw new KrakenException("This kind of res. not supported)");
-                
-            }
+            
 
             DateTimeZone zone = request.DataTimeZone;
 
@@ -588,8 +581,8 @@ namespace QuantConnect.Brokerages.Kraken {
             while(startTime > endTime) {
 
                 GetOHLCResult result = _restApi.GetOHLC(krakenSymbol, interval,  (int)startTime);
-                
-                result.Last = startTime;
+
+                startTime = result.Last;
                 
                 Dictionary<string, List<OHLC>> dict = result.Pairs;
 
@@ -597,16 +590,42 @@ namespace QuantConnect.Brokerages.Kraken {
 
                 foreach(OHLC candle in list) {
 
-                    if(candle.Time <= startTime)
-                        yield return new TradeBar(DateTimeOffset.FromUnixTimeSeconds(candle.Time).DateTime, leanSymbol, candle.Open, candle.High, candle.Low, candle.Close, candle.Volume, TimeSpan.FromMinutes(interval));
+                    if(candle.Time <= endTime)
+                        yield return new TradeBar(FromUnix(candle.Time), leanSymbol, candle.Open, candle.High, candle.Low, candle.Close, candle.Volume, TimeSpan.FromMinutes(interval));
                 }
+                
             }
-            
 
             yield return null;
+        }
 
+        DateTime FromUnix(long unixTime) {
+            return DateTimeOffset.FromUnixTimeSeconds(unixTime).DateTime;
+        }
+
+        long ToUnix(DateTime dateTime) {
+            return ((DateTimeOffset) dateTime).ToUnixTimeSeconds();
+        }
+
+        public IEnumerable<TradeBar> DownloadTradeBars(Symbol symbol, DateTime startTimeUtc, DateTime endTimeUtc, Resolution resolution, DateTimeZone requestedTimeZone) {
+
+            string krakenSymbol = SymbolMapper.GetBrokerageSymbol(symbol);
+
+            int interval = ResolutionToInterval(resolution);
+
+            GetOHLCResult result = _restApi.GetOHLC(krakenSymbol, interval, (int)ToUnix(startTimeUtc));
+
+            Dictionary<string, List<OHLC>> dict = result.Pairs;
+
+            List<OHLC> list = dict[krakenSymbol];
+
+            foreach (OHLC candle in list) {
+
+                yield return new TradeBar(DateTimeOffset.FromUnixTimeSeconds(candle.Time).DateTime, symbol, candle.Open, candle.High, candle.Low, candle.Close, candle.Volume, TimeSpan.FromMinutes(interval));
+            }
 
         }
+
 
         #endregion
 

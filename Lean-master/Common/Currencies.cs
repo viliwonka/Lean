@@ -29,8 +29,8 @@ namespace QuantConnect
         /// <remarks>
         /// It must include all currency pairs needed to resolve quote currencies in <see cref="Cash.EnsureCurrencyDataFeed"/>
         /// </remarks>
-        public static readonly IReadOnlyList<string> CryptoCurrencyPairs = new List<string>
-        {
+        public static readonly IReadOnlyList<string> CryptoCurrencyPairs = new List<string>(
+            new HashSet<string> {
             "BTCUSD",
             "BCHUSD",
             "LTCUSD",
@@ -38,8 +38,15 @@ namespace QuantConnect
             "BTCEUR",
             "BCHEUR",
             "LTCEUR",
-            "ETHEUR"
-        };
+            "ETHEUR",
+            "EOSETH",
+            "EOSEUR",
+            "EOSUSD",
+            "EOSBTC",
+            "ICNETH",
+            "ICNBTC",
+            "USDTUSD",
+        });
 
         /// <summary>
         /// Gets the listing of cfds used for currency conversion rates
@@ -289,10 +296,13 @@ namespace QuantConnect
             {"TWD", "NT$"},
             {"ZAR", "R"},
 
+            //alt symbol for BTC Ƀ
             {"BTC", "฿"},
             {"BCH", "฿"},
             {"LTC", "Ł"},
             {"ETH", "Ξ"},
+            {"USDT", "T" },
+            {"DASH", "Đ" },
             
         };
 
@@ -304,7 +314,7 @@ namespace QuantConnect
         public static string GetCurrencySymbol(string currency)
         {
             string currencySymbol;
-            return CurrencySymbols.TryGetValue(currency, out currencySymbol) ? currencySymbol : "$";
+            return CurrencySymbols.TryGetValue(currency, out currencySymbol) ? currencySymbol : "?";
         }
     }
 }

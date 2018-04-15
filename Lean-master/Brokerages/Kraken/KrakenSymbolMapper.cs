@@ -22,16 +22,19 @@ namespace QuantConnect.Brokerages.Kraken {
     /// <summary>
     /// Provides the mapping between Lean symbols and Kraken symbols.
     /// </summary>
-    public class KrakenSymbolMapper : ISymbolMapper
-    {
+    public class KrakenSymbolMapper : ISymbolMapper {
         private bool HasLoadedSymbolsFromApi = false;
         private KrakenRestApi _restApi = null;
 
-        public void UpdateSymbols(KrakenRestApi restApi) {
+        /// <summary>
+        /// Updates all Kraken Symbols
+        /// </summary>
+        /// <param name="restApi">Existing KrakenRestApi object</param>
+        /*public void UpdateSymbols(KrakenRestApi restApi) {
 
             Dictionary<string, DataType.AssetPair> dict = restApi.GetAssetPairs();
 
-            foreach(KeyValuePair<string, DataType.AssetPair> pair in dict) {
+            foreach (KeyValuePair<string, DataType.AssetPair> pair in dict) {
 
                 // clear previous symbols
                 KnownSymbolStrings.Clear();
@@ -49,45 +52,47 @@ namespace QuantConnect.Brokerages.Kraken {
                 KrakenCurrencies.Add(baseName);
                 KrakenCurrencies.Add(quoteName);
             }
+        }*/
+
+
+        private static readonly Dictionary<string, string> ToKrakenSymbol = new Dictionary<string, string>() {
+            
+            { "ETHBTC", "XETHXXBT" },
+            { "ETHEUR", "XETHZEUR" },
+            { "ETHUSD", "XETHZUSD" },
+            { "ICNETH", "XICNXETH" },
+            { "ICNBTC", "XICNXXBT" },
+            { "LTCXBT", "XLTCXXBT" },
+            { "LTCEUR", "XLTCZEUR" },
+            { "LTCUSD", "XLTCZUSD" },
+            { "BTCEUR", "XXBTZEUR" },
+            { "BTCUSD", "XXBTZUSD" },
+            { "XLMEUR", "XXLMZEUR" },
+            { "XLMBTC", "XXLMXXBT" },
+            { "XLMUSD", "XXLMZUSD" },
+        };
+        
+        static KrakenSymbolMapper() {
+
+            foreach (var pair in ToKrakenSymbol)
+                ToLeanSymbol.Add(pair.Value, pair.Key);
         }
 
-        /// <summary>
-        /// The list of known Kraken symbols.
-        /// </summary>
-        public static readonly HashSet<string> KnownSymbolStrings = new HashSet<string> 
-        {
-            
-        };
-        
-        /// <summary>
-        /// The list of known Kraken currencies.
-        /// </summary>
-        private static readonly HashSet<string> KrakenCurrencies = new HashSet<string>() {           
-        
-        };
+        private static readonly Dictionary<string, string> ToLeanSymbol = new Dictionary<string, string>();
 
-
-        private static readonly Dictionary<string, string> LeanToKrakenMap = new Dictionary<string, string>() {
-
-            { "CAD" , "ZCAD" },
-            { "EUR" , "ZEUR" },
-            { "JPY" , "ZJPY" },
-            { "USD" , "ZUSD" }
-
-        };
-        
         /// <summary>
         /// Returns array with length of 2. 0 = base currency, 1 = quote currency
         /// </summary>
         /// <param name="symbolString">Source symbol</param>
-        /// <param name="length">Length of one currency</param>
         /// <returns></returns>
-        private static string[] SymbolStringTo2Currencies(string symbolString, int length) {
+        private static string[] SplitSymbol(string symbolString) {
+
+            int halfLength = (int) Math.Ceiling(symbolString.Length / 2f);
 
             return new string[] {
 
-                symbolString.Substring(0, length),
-                symbolString.Substring(length, length)
+                symbolString.Substring(0, halfLength),
+                symbolString.Substring(halfLength, halfLength)
             };
         }
 
@@ -136,43 +141,40 @@ namespace QuantConnect.Brokerages.Kraken {
             if (market != Market.Kraken)
                 throw new ArgumentException("Invalid market: " + market);
 
-            return Symbol.Create(ConvertKrakenSymbolToLeanSymbol(brokerageSymbol), GetBrokerageSecurityType(brokerageSymbol), Market.Kraken);
+            return Symbol.Create(ConvertKrakenSymbolToLeanSymbol(brokerageSymbol), SecurityType.Crypto, Market.Kraken);
         }
 
         /// <summary>
-        /// Returns the security type for an Kraken symbol
+        /// Gets pair from currency A and currency B
         /// </summary>
-        /// <param name="brokerageSymbol">The Kraken symbol</param>
-        /// <returns>The security type</returns>
-        public SecurityType GetBrokerageSecurityType(string brokerageSymbol)
-        {
-            var tokens = brokerageSymbol.Split('_');
-            if (tokens.Length != 2)
-                throw new ArgumentException("Unable to determine SecurityType for Kraken symbol: " + brokerageSymbol);
+        /// <param name="currencyA">First currency</param>
+        /// <param name="currencyB">Second currency</param>
+        /// <returns>Returns pair (string: pair, bool: is currencyA first) </pair></returns>
+        public KeyValuePair<string, bool> GetPair(string currencyA, string currencyB) {
 
-            return KnownCurrencies.Contains(tokens[0]) && KnownCurrencies.Contains(tokens[1])
-                ? SecurityType.Forex : SecurityType.Cfd;
+            if (currencyA.Length == 0 || currencyB.Length == 0)
+                throw new DataType.KrakenException("No emtpy strings!");
 
+            foreach (string krakenPair in ToLeanSymbol.Keys) {
+
+                int A = krakenPair.IndexOf(currencyA);
+                int B = krakenPair.IndexOf(currencyB);
+
+                if (A >= 0 && B >= 0) {
+
+                    return new KeyValuePair<string, bool>(krakenPair, A < B);
+                }    
+            }
+
+            throw new DataType.KrakenException("Pair not found!");
         }
-
-        /// <summary>
-        /// Returns the security type for a Lean symbol
-        /// </summary>
-        /// <param name="leanSymbol">The Lean symbol</param>
-        /// <returns>The security type</returns>
-        public SecurityType GetLeanSecurityType(string leanSymbol)
-        {
-            return GetBrokerageSecurityType(ConvertLeanSymbolToKrakenSymbol(leanSymbol));
-        }
-
         /// <summary>
         /// Checks if the symbol is supported by Kraken
         /// </summary>
         /// <param name="brokerageSymbol">The Kraken symbol</param>
         /// <returns>True if Kraken supports the symbol</returns>
-        public bool IsKnownBrokerageSymbol(string brokerageSymbol)
-        {
-            return KnownSymbolStrings.Contains(brokerageSymbol);
+        public bool IsKnownBrokerageSymbol(string brokerageSymbol) {
+            return ToLeanSymbol.ContainsKey(brokerageSymbol);
         }
 
         /// <summary>
@@ -180,14 +182,8 @@ namespace QuantConnect.Brokerages.Kraken {
         /// </summary>
         /// <param name="symbol">The Lean symbol</param>
         /// <returns>True if Kraken supports the symbol</returns>
-        public bool IsKnownLeanSymbol(Symbol symbol)
-        {
-            if (symbol == null || string.IsNullOrWhiteSpace(symbol.Value) || symbol.Value.Length <= 3) 
-                return false;
-
-            var krakenSymbol = ConvertLeanSymbolToKrakenSymbol(symbol.Value);
-
-            return IsKnownBrokerageSymbol(krakenSymbol) && GetBrokerageSecurityType(krakenSymbol) == symbol.ID.SecurityType;
+        public bool IsKnownLeanSymbol(Symbol symbol) {
+            return ToKrakenSymbol.ContainsKey(symbol.ID.Symbol);
         }
 
         /// <summary>
@@ -195,13 +191,12 @@ namespace QuantConnect.Brokerages.Kraken {
         /// </summary>
         private static string ConvertKrakenSymbolToLeanSymbol(string krakenSymbol)
         {
-            string[] krakenPair = SymbolStringTo2Currencies(krakenSymbol, 4);
-
-
-            return krakenSymbol;
-
-            // Lean symbols are equal to Kraken symbols with underscores removed
-            // return krakenSymbol.Replace("_", "");
+            try {
+                return ToLeanSymbol[krakenSymbol];
+            }
+            catch {
+                throw new DataType.KrakenException("Unknown Kraken Symbol");
+            }
         }
 
 
@@ -210,12 +205,13 @@ namespace QuantConnect.Brokerages.Kraken {
         /// </summary>
         private static string ConvertLeanSymbolToKrakenSymbol(string leanSymbol)
         {
+            try {
+                return ToKrakenSymbol[leanSymbol];
+            }
+            catch {
+                throw new DataType.KrakenException("Unknown Lean Symbol - unsupported by Kraken");
+            }
 
-            string[] leanPair = SymbolStringTo2Currencies(leanSymbol, 3);
-
-            // All Kraken symbols end with '_XYZ', where XYZ is the quote currency
-
-            // return leanSymbol.Insert(leanSymbol.Length - 3, "_");
         }
     }
 }
