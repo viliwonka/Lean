@@ -34,11 +34,11 @@ namespace QuantConnect.Brokerages
         /// </summary>
         public new static readonly IReadOnlyDictionary<SecurityType, string> DefaultMarketMap = new Dictionary<SecurityType, string>
         {
-            {SecurityType.Base, Market.USA},
-            {SecurityType.Equity, Market.USA},
-            {SecurityType.Option, Market.USA},
-            {SecurityType.Forex, Market.Oanda},
-            {SecurityType.Cfd, Market.Oanda}
+            { SecurityType.Base,   Market.USA },
+            { SecurityType.Equity, Market.USA },
+            { SecurityType.Option, Market.USA },
+            { SecurityType.Forex,  Market.Oanda },
+            { SecurityType.Cfd,    Market.Oanda }
         }.ToReadOnlyDictionary();
 
         /// <summary>

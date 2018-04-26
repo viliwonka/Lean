@@ -165,7 +165,6 @@ namespace QuantConnect.Brokerages.GDAX
         public override void Disconnect()
         {
             base.Disconnect();
-
             WebSocket.Close();
         }
 

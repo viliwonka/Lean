@@ -44,13 +44,15 @@ namespace QuantConnect.Brokerages.Kraken {
         /// <summary>
         /// Initializes a new instance of the <see cref="KrakenBrokerage"/> class.
         /// </summary>
-        /// <param name="accessToken">The Kraken access token (can be the user's personal access token or the access token obtained with OAuth by QC on behalf of the user)</param>
-        /// <param name="accountId">The account identifier.</param>
-        public KrakenBrokerage(string accessToken, string accountId)
+        /// <param name="key">The Kraken access token (can be the user's personal access token or the access token obtained with OAuth by QC on behalf of the user)</param>
+        /// <param name="secret">The account identifier.</param>
+        public KrakenBrokerage(string key, string secret)
             : base("Kraken Brokerage")
         {
 
-            _api = new KrakenApi(_symbolMapper, accessToken, accountId);
+            _symbolMapper = new KrakenSymbolMapper();
+
+            _api = new KrakenApi(_symbolMapper, key, secret);
 
             // forward events received from API
             _api.OrderStatusChanged += (sender, orderEvent) => OnOrderEvent(orderEvent);

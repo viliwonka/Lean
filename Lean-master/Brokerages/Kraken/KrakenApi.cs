@@ -105,10 +105,8 @@ namespace QuantConnect.Brokerages.Kraken {
             _restApi = new KrakenRestApi(key, secret, rateLimitMilliseconds);
 
             this.SymbolMapper = symbolMapper;
-            
-            symbolMapper = new KrakenSymbolMapper();
 
-            //symbolMapper.UpdateSymbols(_restApi);
+            // symbolMapper.UpdateSymbols(_restApi);
         }
 
         #region IDataQueueHandler
@@ -572,8 +570,6 @@ namespace QuantConnect.Brokerages.Kraken {
 
             int interval = ResolutionToInterval(resolution);
 
-            
-
             DateTimeZone zone = request.DataTimeZone;
 
             Type dataType = request.DataType;
@@ -584,8 +580,7 @@ namespace QuantConnect.Brokerages.Kraken {
 
                 startTime = result.Last;
                 
-                Dictionary<string, List<OHLC>> dict = result.Pairs;
-
+                Dictionary<string, List<OHLC>> dict = result.Pairs;               
                 List<OHLC> list = dict[krakenSymbol];
 
                 foreach(OHLC candle in list) {
@@ -593,7 +588,6 @@ namespace QuantConnect.Brokerages.Kraken {
                     if(candle.Time <= endTime)
                         yield return new TradeBar(FromUnix(candle.Time), leanSymbol, candle.Open, candle.High, candle.Low, candle.Close, candle.Volume, TimeSpan.FromMinutes(interval));
                 }
-                
             }
 
             yield return null;
@@ -619,15 +613,10 @@ namespace QuantConnect.Brokerages.Kraken {
 
             List<OHLC> list = dict[krakenSymbol];
 
-            foreach (OHLC candle in list) {
-
+            foreach (OHLC candle in list)
                 yield return new TradeBar(DateTimeOffset.FromUnixTimeSeconds(candle.Time).DateTime, symbol, candle.Open, candle.High, candle.Low, candle.Close, candle.Volume, TimeSpan.FromMinutes(interval));
-            }
 
         }
-
-
         #endregion
-
     }
 }
