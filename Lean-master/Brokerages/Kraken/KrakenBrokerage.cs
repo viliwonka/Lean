@@ -105,8 +105,9 @@ namespace QuantConnect.Brokerages.Kraken {
         public override List<Holding> GetAccountHoldings()
         {
             return new List<Holding>();
-            /*
+            
             // Set MarketPrice in each Holding
+            /*
             var KrakenSymbols = holdings
                 .Select(x => _symbolMapper.GetBrokerageSymbol(x.Symbol))
                 .ToList();
@@ -267,6 +268,15 @@ namespace QuantConnect.Brokerages.Kraken {
         {
             return _api.DownloadTradeBars(symbol, startTimeUtc, endTimeUtc, resolution, requestedTimeZone);
         }
-        
+
+        /// <summary>
+        /// Retrieves a price tick for a given symbol
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
+        public Tick GetTick(Symbol symbol) {
+
+            return _api.GetTick(symbol);
+        }
     }
 }

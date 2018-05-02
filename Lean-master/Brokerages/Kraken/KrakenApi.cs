@@ -127,32 +127,48 @@ namespace QuantConnect.Brokerages.Kraken {
 
             Dictionary<string, Ticker> ticks = _restApi.GetTicker(tickerStringbuilder.ToString());
             
-            foreach(KeyValuePair<string, Ticker> pair in ticks) {
+            foreach(KeyValuePair<string, Ticker> pair in ticks)
+                yield return KrakenTickToLeanTick(pair);
+            
+        }
 
-                Symbol symbol = SymbolMapper.GetLeanSymbol(pair.Key, SecurityType.Crypto, Market.Kraken);
+        public Tick GetTick(Symbol symbol) {
 
-                Ticker krakenTick = pair.Value;
+            string krakenSymbol = SymbolMapper.GetBrokerageSymbol(symbol);
 
-                //!+ IZVEDI KAJ POMENI RAZLIKA MED WHOLE LOT IN LOT !!
-                
-                QuantConnect.Data.Market.Tick leanTick = new Tick();
+            Dictionary<string, Ticker> ticks = _restApi.GetTicker(krakenSymbol);
 
-                leanTick.Symbol   = symbol;
-                leanTick.Time     = DateTime.UtcNow;
-                
-                leanTick.BidPrice = krakenTick.Bid[0];
-                leanTick.BidSize  = krakenTick.Bid[1]; 
-                leanTick.AskPrice = krakenTick.Ask[0];
-                leanTick.AskSize  = krakenTick.Ask[1];
-                
-                leanTick.Exchange = Market.Kraken;
-                
-                leanTick.Value    = krakenTick.Closed[0];
-                leanTick.Quantity = krakenTick.Closed[1];
-                leanTick.DataType = MarketDataType.Tick;
-                
-                yield return leanTick;
-            }
+            Ticker krakenTick = ticks[krakenSymbol];
+
+            return KrakenTickToLeanTick(new KeyValuePair<string, Ticker>(krakenSymbol, krakenTick));
+        }
+
+        Tick KrakenTickToLeanTick(KeyValuePair<string, Ticker> pair) {
+
+            Symbol symbol = SymbolMapper.GetLeanSymbol(pair.Key, SecurityType.Crypto, Market.Kraken);
+
+            Ticker krakenTick = pair.Value;
+
+            //!+ IZVEDI KAJ POMENI RAZLIKA MED WHOLE LOT IN LOT !!
+
+            QuantConnect.Data.Market.Tick leanTick = new Tick();
+
+            leanTick.Symbol = symbol;
+            leanTick.Time = DateTime.UtcNow;
+
+            leanTick.BidPrice = krakenTick.Bid[0];
+            leanTick.BidSize = krakenTick.Bid[1];
+            leanTick.AskPrice = krakenTick.Ask[0];
+            leanTick.AskSize = krakenTick.Ask[1];
+
+            leanTick.Exchange = Market.Kraken;
+
+            leanTick.Value = krakenTick.Closed[0];
+            leanTick.Quantity = krakenTick.Closed[1];
+            leanTick.DataType = MarketDataType.Tick;
+
+            return leanTick;
+            
         }
 
         public void Subscribe(LiveNodePacket job, IEnumerable<Symbol> symbols) {
@@ -243,6 +259,37 @@ namespace QuantConnect.Brokerages.Kraken {
 
             throw new KrakenException("Unsupported order type");
         }
+
+
+        int ResolutionToInterval(Resolution res) {
+
+            switch (res) {
+
+                case Resolution.Daily:
+                    return 1440;
+
+                case Resolution.Hour:
+                    return 60;
+
+                case Resolution.Minute:
+                    return 1;
+
+
+                case Resolution.Second:
+                case Resolution.Tick:
+                default:
+                    throw new KrakenException("This kind of res. not supported)");
+            }
+        }
+
+        DateTime FromUnix(long unixTime) {
+            return DateTimeOffset.FromUnixTimeSeconds(unixTime).DateTime;
+        }
+
+        long ToUnix(DateTime dateTime) {
+            return ((DateTimeOffset) dateTime).ToUnixTimeSeconds();
+        }
+
         #endregion
         /// <summary>
         /// Places a new order and assigns a new broker ID to the order
@@ -347,6 +394,11 @@ namespace QuantConnect.Brokerages.Kraken {
             // NOP
         }
 
+        public bool Ping() {
+
+            throw new KrakenException("Ping not implemented yet");
+        }
+
         /// <summary>
         /// Dispose of the brokerage instance
         /// </summary>
@@ -381,7 +433,7 @@ namespace QuantConnect.Brokerages.Kraken {
 
                 OrderDescription desc = info.Descr;
 
-                //check for debug purposes here
+                // check for debug purposes here
                 if (pair.Key != desc.Pair)
                     throw new KrakenException("this doesn't match, please inspect!!");
 
@@ -527,27 +579,6 @@ namespace QuantConnect.Brokerages.Kraken {
             get { return false; }
         }
 
-        int ResolutionToInterval(Resolution res) {
-
-            switch (res) {
-
-                case Resolution.Daily:
-                    return 1440;
-                    
-                case Resolution.Hour:
-                    return 60;
-                    
-                case Resolution.Minute:
-                    return 1;
-                    
-
-                case Resolution.Second:
-                case Resolution.Tick:
-                default:
-                    throw new KrakenException("This kind of res. not supported)");
-            }
-        }
-
         /// <summary>
         /// Gets the history for the requested security
         /// </summary>
@@ -593,14 +624,7 @@ namespace QuantConnect.Brokerages.Kraken {
             yield return null;
         }
 
-        DateTime FromUnix(long unixTime) {
-            return DateTimeOffset.FromUnixTimeSeconds(unixTime).DateTime;
-        }
-
-        long ToUnix(DateTime dateTime) {
-            return ((DateTimeOffset) dateTime).ToUnixTimeSeconds();
-        }
-
+       
         public IEnumerable<TradeBar> DownloadTradeBars(Symbol symbol, DateTime startTimeUtc, DateTime endTimeUtc, Resolution resolution, DateTimeZone requestedTimeZone) {
 
             string krakenSymbol = SymbolMapper.GetBrokerageSymbol(symbol);

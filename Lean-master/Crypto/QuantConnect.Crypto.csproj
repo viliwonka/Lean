@@ -45,6 +45,9 @@
     <Reference Include="Nethereum.Contracts, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nethereum.Contracts.2.4.0\lib\net451\Nethereum.Contracts.dll</HintPath>
     </Reference>
+    <Reference Include="Nethereum.Geth, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Geth.2.4.0\lib\net451\Nethereum.Geth.dll</HintPath>
+    </Reference>
     <Reference Include="Nethereum.Hex, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nethereum.Hex.2.4.0\lib\net451\Nethereum.Hex.dll</HintPath>
     </Reference>
@@ -56,6 +59,9 @@
     </Reference>
     <Reference Include="Nethereum.KeyStore, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nethereum.KeyStore.2.4.0\lib\net451\Nethereum.KeyStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.Parity, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Parity.2.4.0\lib\net451\Nethereum.Parity.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.RLP, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nethereum.RLP.2.4.0\lib\net451\Nethereum.RLP.dll</HintPath>
@@ -86,12 +92,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blockchain\Ethereum\EthereumBlockchain.cs" />
     <Compile Include="Blockchain\Secret.cs" />
     <Compile Include="Blockchain\Transaction.cs" />
     <Compile Include="Blockchain\Blockchain.cs" />
     <Compile Include="Blockchain\CryptoCash.cs" />
-    <Compile Include="Blockchain\EthereumWallet.cs" />
+    <Compile Include="Blockchain\Ethereum\EthereumWallet.cs" />
     <Compile Include="Blockchain\Wallet.cs" />
+    <Compile Include="Interfaces\IDepositable.cs" />
+    <Compile Include="Interfaces\IWithdrawable.cs" />
     <Compile Include="Data\ExtendedBar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

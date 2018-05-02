@@ -55,15 +55,13 @@ namespace QuantConnect.Tests.Brokerages.Kraken
 
         private static KrakenBrokerage GetBrokerage()
         {
-            var wssUrl = Config.Get("Kraken-url", "wss://ws-feed.Kraken.com");
-            var webSocketClient = new WebSocketWrapper();
-            var restClient = new RestClient("https://api.Kraken.com");
-            var apiKey = Config.Get("Kraken-api-key");
-            var apiSecret = Config.Get("Kraken-api-secret");
-            var passPhrase = Config.Get("Kraken-passphrase");
-            var algorithm = new QCAlgorithm();
+            var apiKey = Config.Get("kraken-api-key");
+            var apiSecret = Config.Get("kraken-api-secret");
+            
+            //?
+            //var algorithm = new QCAlgorithm();
 
-            var brokerage = new KrakenBrokerage(wssUrl, webSocketClient, restClient, apiKey, apiSecret, passPhrase, algorithm);
+            var brokerage = new KrakenBrokerage(apiKey, apiSecret);
             brokerage.Connect();
 
             return brokerage;

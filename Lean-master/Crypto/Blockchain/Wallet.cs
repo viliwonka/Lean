@@ -9,13 +9,15 @@ namespace QuantConnect.Blockchain
 {
     public abstract class Wallet
     {
-        string Name { get; }
+        public string Name { get; }
         
-        Blockchain Blockchain { get; }
+        public Blockchain Blockchain { get; }
 
-        private Secret privateKey;
+        public Secret PrivateKey { get; private set; }
 
-        public Wallet(string name, Blockchain blockchain) {
+        public Wallet(string name, Blockchain blockchain, Secret privateKey) {
+            
+            this.PrivateKey = privateKey;
             this.Name = name;
             this.Blockchain = blockchain;
         }
@@ -24,6 +26,6 @@ namespace QuantConnect.Blockchain
             return cash.Blockchain.Symbol == this.Blockchain.Symbol;
         }
 
-        public abstract byte[] Sign(byte[] data);
+        //public abstract byte[] Sign(byte[] data);
     }
 }

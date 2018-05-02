@@ -17,9 +17,10 @@ using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using QuantConnect.Brokerages;
-using QuantConnect.Brokerages.GDAX;
+using QuantConnect.Brokerages.Kraken;
 using QuantConnect.Interfaces;
 using QuantConnect.Orders;
+using QuantConnect.Configuration;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -29,15 +30,18 @@ using System.Net;
 using System.Threading;
 
 namespace QuantConnect.Tests.Brokerages.Kraken
-{
+{/*
     [TestFixture]
     public class KrakenBrokerageTests
     {
+        //!TODO - treba je vse podatke dol iz krakena potegnt
+
         #region Declarations
-        GDAXBrokerage _unit;
-        Mock<IWebSocket> _wss = new Mock<IWebSocket>();
+        KrakenBrokerage _unit;
+        
         Mock<IRestClient> _rest = new Mock<IRestClient>();
-        Mock<IAlgorithm> _algo = new Mock<IAlgorithm>();
+        Mock<IAlgorithm>  _algo = new Mock<IAlgorithm>();
+        
         string _orderData;
         string _orderByIdData;
         string _openOrderData;
@@ -45,26 +49,29 @@ namespace QuantConnect.Tests.Brokerages.Kraken
         string _accountsData;
         string _holdingData;
         string _tickerData;
+        
         Symbol _symbol;
-        const string _brokerId = "d0c5340b-6d6c-49d9-b567-48c4bfca13d2";
-        const string _matchBrokerId = "132fb6ae-456b-4654-b4e0-d681ac05cea1";
-        AccountType _accountType = AccountType.Margin;
+        
+        AccountType _accountType = AccountType.Cash;
+        
         #endregion
 
         [SetUp]
-        public void Setup()
-        {
-            _unit = new GDAXBrokerage("wss://localhost", _wss.Object, _rest.Object, "abc", "MTIz", "pass", _algo.Object);
+        public void Setup() {
 
+            var apiKey    = Config.Get("kraken-api-key");
+            var apiSecret = Config.Get("kraken-api-secret");
+
+            _unit = new KrakenBrokerage(apiKey, apiSecret);
 
             // kraken responses
-            _orderData = File.ReadAllText("TestData//gdax_order.txt");
-            _matchData = File.ReadAllText("TestData//gdax_match.txt");
-            _openOrderData = File.ReadAllText("TestData//gdax_openOrders.txt");
-            _accountsData = File.ReadAllText("TestData//gdax_accounts.txt");
-            _holdingData = File.ReadAllText("TestData//gdax_holding.txt");
-            _orderByIdData = File.ReadAllText("TestData//gdax_orderById.txt");
-            _tickerData = File.ReadAllText("TestData//gdax_ticker.txt");
+            _orderData      = File.ReadAllText("TestData//gdax_order.txt");
+            _matchData      = File.ReadAllText("TestData//gdax_match.txt");
+            _openOrderData  = File.ReadAllText("TestData//gdax_openOrders.txt");
+            _accountsData   = File.ReadAllText("TestData//gdax_accounts.txt");
+            _holdingData    = File.ReadAllText("TestData//gdax_holding.txt");
+            _orderByIdData  = File.ReadAllText("TestData//gdax_orderById.txt");
+            _tickerData     = File.ReadAllText("TestData//gdax_ticker.txt");
 
             _symbol = Symbol.Create("BTCUSD", SecurityType.Crypto, Market.GDAX);
 
@@ -74,7 +81,7 @@ namespace QuantConnect.Tests.Brokerages.Kraken
                 StatusCode = HttpStatusCode.OK
             });
 
-            _rest.Setup(m => m.Execute(It.Is<IRestRequest>(r => r.Resource.StartsWith("/orders/" + _brokerId) || r.Resource.StartsWith("/orders/" + _matchBrokerId))))
+            _rest.Setup(m => m.Execute(It.Is<IRestRequest>(r => r.Resource.StartsWith("/orders/" + _brokerId) || r.Resource.StartsWith("/orders/" + _matchBrokerId))))           
             .Returns(new RestSharp.RestResponse
             {
                 Content = File.ReadAllText("TestData//gdax_orderById.txt"),
@@ -83,6 +90,7 @@ namespace QuantConnect.Tests.Brokerages.Kraken
 
             _algo.Setup(a => a.BrokerageModel.AccountType).Returns(_accountType);
             var rateMock = new Mock<IRestClient>();
+
             _unit.RateClient = rateMock.Object;
             rateMock.Setup(r => r.Execute(It.IsAny<IRestRequest>())).Returns(new RestResponse
             {
@@ -135,14 +143,15 @@ namespace QuantConnect.Tests.Brokerages.Kraken
         {
             string json = _matchData;
             string id = "132fb6ae-456b-4654-b4e0-d681ac05cea1";
-            //not our order
+
+            // not our order
             if (expectedQuantity == 99)
             {
                 json = json.Replace(id, Guid.NewGuid().ToString());
             }
 
             decimal orderQuantity = 6.1m;
-            GDAXTestsHelpers.AddOrder(_unit, 1, id, orderQuantity);
+            KrakenTestsHelpers.AddOrder(_unit, 1, id, orderQuantity);
             ManualResetEvent raised = new ManualResetEvent(false);
 
             decimal actualFee = 0;
@@ -407,5 +416,5 @@ namespace QuantConnect.Tests.Brokerages.Kraken
 
             Assert.AreEqual(BrokerageMessageType.Warning, messageType);
         }
-    }
+    }*/
 }

@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace QuantConnect.Blockchain {
 
-    class Secret {
+    public class Secret {
 
         byte[] filler0;
         byte[] encryptionKey;
@@ -16,14 +16,11 @@ namespace QuantConnect.Blockchain {
         
         Random random = new Random();
 
-        /*
-        public Secret(string rawString) : this(Encoding.UTF8.GetBytes(rawString)) {
-                
-        }*/
-
-        const int keyPower  = 8;
-        const int keyLength = 1 << keyPower;
+        const int keyPower  =  8;
+        const int keyLength =  1 << keyPower;
         const int keyMask   = ~0 << keyPower;
+        
+        public Secret(string rawString) : this(Encoding.UTF8.GetBytes(rawString)) { }
 
         public Secret(byte[] rawSecret) {
             
@@ -64,7 +61,6 @@ namespace QuantConnect.Blockchain {
 
                 throw e;
             }
-
         }
 
     }

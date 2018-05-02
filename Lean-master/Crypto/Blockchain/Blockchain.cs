@@ -7,6 +7,7 @@ using QuantConnect.Securities;
 
 namespace QuantConnect.Blockchain {
 
+    // this should act as an database
     public abstract class Blockchain {
 
         public string Name;

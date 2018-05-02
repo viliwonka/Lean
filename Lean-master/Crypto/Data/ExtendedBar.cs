@@ -21,7 +21,11 @@ namespace QuantConnect.Data.Market {
         }
 
         public decimal LogReturn {
-            get { return (decimal) Math.Log( (double) Delta); }
+            get { return (decimal) Math.Log( (double) (Close/Open) ); }
+        }
+
+        public decimal PreciseLogReturn(Bar previousBar) {
+            return (decimal) Math.Log((double) (Close / previousBar.Close));
         }
 
         public ExtendedBar(Bar bar) {
