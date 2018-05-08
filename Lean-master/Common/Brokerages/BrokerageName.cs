@@ -59,7 +59,17 @@ namespace QuantConnect.Brokerages
         /// <summary>
         /// Transaction and submit/execution rules will use gdax models
         /// </summary>
-        GDAX = 12
+        GDAX = 12,
+
+        /// <summary>
+        /// Transaction and submit/execution rules will use Kraken models
+        /// </summary>
+        Kraken,
+
+        /// <summary>
+        /// Transaction and submit/execution rules will use Binance models
+        /// </summary>
+        Binance
 
     }
 }

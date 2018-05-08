@@ -87,7 +87,7 @@ namespace QuantConnect.Tests.Algorithm.Framework.Alphas.Serialization
                 Magnitude = jObject["magnitude"].Value<double>()
             });
             var result = JsonConvert.SerializeObject(insight, Formatting.Indented);
-            Assert.AreEqual(jsonNoScore, result);
+            Assert.AreEqual(jsonNoScore, result.Replace("\r", ""));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace QuantConnect.Tests.Algorithm.Framework.Alphas.Serialization
                 EstimatedValue = jObject["estimated-value"].Value<decimal>()
             });
             var result = JsonConvert.SerializeObject(insight, Formatting.Indented);
-            Assert.AreEqual(jsonWithScore, result);
+            Assert.AreEqual(jsonWithScore, result.Replace("\r", ""));
         }
 
         private const string jsonNoScore =

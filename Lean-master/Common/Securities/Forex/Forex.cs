@@ -19,8 +19,6 @@ using QuantConnect.Orders.Fees;
 using QuantConnect.Orders.Fills;
 using QuantConnect.Orders.Slippage;
 using System.Collections.Generic;
-//using QuantConnect.Logging;
-//using System.Linq;
 
 namespace QuantConnect.Securities.Forex 
 {
@@ -104,23 +102,24 @@ namespace QuantConnect.Securities.Forex
         public string BaseCurrencySymbol { get; private set; }
 
         /// <summary>
-        /// Decomposes the specified currency pair into a base and quote currency provided as out parameters
+        /// Decomposes the specified currency pair into a base and quote currency provided as out parameters.
+        /// Requires symbols in Currencies.CurrencySymbols dictionary to make accurate splits, important for crypot-currency symbols.
         /// </summary>
         /// <param name="currencyPair">The input currency pair to be decomposed, for example, "EURUSD"</param>
         /// <param name="baseCurrency">The output base currency</param>
         /// <param name="quoteCurrency">The output quote currency</param>
         public static void DecomposeCurrencyPair(string currencyPair, out string baseCurrency, out string quoteCurrency) {
 
-            if (currencyPair == null && currencyPair.Length >= 6 && currencyPair.Length <= 8) {
-                throw new ArgumentException("Currency pairs must not be null, and long minimaly 6 and maximum 8.");
+            if (currencyPair == null || currencyPair.Length < 6 || currencyPair.Length > 8) {
+                throw new ArgumentException("Currency pairs must not be null, length minimum of 6 and maximum of 8.");
             }
 
-            //Log.LogHandler.Trace($"Splitting {currencyPair}");
+            // Debug.Log($"Splitting {currencyPair}");
 
             baseCurrency = null;
             quoteCurrency = null;
 
-            List<string> bases = new List<string>();
+            List<string> bases  = new List<string>();
             List<string> quotes = new List<string>();
 
             // find bases
@@ -129,7 +128,7 @@ namespace QuantConnect.Securities.Forex
 
                     if (currencyPair.IndexOf(symbol) == 0) {
                         bases.Add(symbol);
-                        //Log.LogHandler.Trace($"Added base {symbol}");
+                        //Debug.Log($"Added base {symbol}");
                     }
                 }
             }
@@ -143,18 +142,18 @@ namespace QuantConnect.Securities.Forex
                     if (start == 3 || start == 4) {
                         
                         quotes.Add(symbol);
-                        //Log.LogHandler.Trace($"Added quote {symbol}");
+                        //Debug.Log($"Added quote {symbol}");
                     }
                 }
             }
 
-            // make combinations
+            // make combinations (combined) and compare to currencyPair
             foreach(string b in bases) {
                 foreach(string q in quotes) {
 
                     string combined = b + q;
 
-                    //Log.LogHandler.Trace($"Combination: {combined}");
+                    //Debug.Log($"Combination: {combined}");
                     if (combined.Equals(currencyPair)) {
                         baseCurrency = b;
                         quoteCurrency = q;
@@ -163,14 +162,26 @@ namespace QuantConnect.Securities.Forex
                 }
             }
 
+            // old-code part for Forex (non-crypto) markets, k
+            if(bases.Count == 0 || quotes.Count == 0) {
+                if(currencyPair.Length == 6) {
+                    baseCurrency = currencyPair.Substring(0, 3);
+                    quoteCurrency = currencyPair.Substring(3);
+                    return;
+                } else {
+
+                    throw new ArgumentException("Couldn't find correct split. The correct symbols don't exist in Currencies.CurrencySymbols or this isn't Forex pair.");
+                }
+            }
+
             if(bases.Count == 0) {
-                throw new ArgumentException("No proper base currency found.");
+                throw new ArgumentException("No base currency found.");
             }
 
             if (quotes.Count == 0) {
-                throw new ArgumentException("No proper quote currency found.");
+                throw new ArgumentException("No quote currency found.");
             }
-
+            
         }
     }
 }

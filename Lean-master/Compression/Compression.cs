@@ -36,6 +36,12 @@ namespace QuantConnect
     /// <remarks>QuantConnect's data library is stored in zip format locally on the hard drive.</remarks>
     public static class Compression
     {
+
+        //Fix localization bug
+        static Compression() {
+
+            ICSharpCode.SharpZipLib.Zip.ZipConstants.DefaultCodePage = 0;
+        }
         /// <summary>
         /// Create a zip file of the supplied file names and string data source
         /// </summary>
@@ -637,6 +643,7 @@ namespace QuantConnect
         /// </summary>
         public static StreamReader UnzipStreamToStreamReader(Stream zipstream)
         {
+
             StreamReader reader = null;
             try
             {

@@ -94,7 +94,7 @@ namespace QuantConnect.ToolBox.YahooDownloader
                 {
                     Debug.Print(webEx.Message);
                     Token.Reset();
-                    Debug.Print("Re-fetch");
+                    Debug.Print("Re-fetch the cookies");
                     return GetRaw(symbol, start, end, eventCode);
                 }
                 throw;
