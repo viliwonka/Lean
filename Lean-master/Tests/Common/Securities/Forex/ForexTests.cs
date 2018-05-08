@@ -25,7 +25,7 @@ namespace QuantConnect.Tests.Common.Securities.Forex
     public class ForexTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "Currency pairs must not be null, and long minimaly 6 and maximum 8.")]
+        [ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "Currency pairs must not be null, length minimum of 6 and maximum of 8.")]
         public void DecomposeThrowsOnSymbolTooShort()
         {
             string symbol = "12345";
@@ -35,7 +35,7 @@ namespace QuantConnect.Tests.Common.Securities.Forex
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "Currency pairs must not be null, and long minimaly 6 and maximum 8.")]
+        [ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "Currency pairs must not be null, length minimum of 6 and maximum of 8.")]
         public void DecomposeThrowsOnSymbolTooLong()
         {
             string symbol = "123456789";
@@ -45,7 +45,7 @@ namespace QuantConnect.Tests.Common.Securities.Forex
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "Currency pairs must not be null, and long minimaly 6 and maximum 8.")]
+        [ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "Currency pairs must not be null, length minimum of 6 and maximum of 8.")]
         public void DecomposeThrowsOnNullSymbol()
         {
             string symbol = null;

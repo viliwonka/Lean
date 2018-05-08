@@ -108,9 +108,11 @@ namespace QuantConnect.Securities.Forex
         /// <param name="currencyPair">The input currency pair to be decomposed, for example, "EURUSD"</param>
         /// <param name="baseCurrency">The output base currency</param>
         /// <param name="quoteCurrency">The output quote currency</param>
-        public static void DecomposeCurrencyPair(string currencyPair, out string baseCurrency, out string quoteCurrency) {
+        public static void DecomposeCurrencyPair(string currencyPair, out string baseCurrency, out string quoteCurrency) 
+        {
 
-            if (currencyPair == null || currencyPair.Length < 6 || currencyPair.Length > 8) {
+            if (currencyPair == null || currencyPair.Length < 6 || currencyPair.Length > 8)
+            {
                 throw new ArgumentException("Currency pairs must not be null, length minimum of 6 and maximum of 8.");
             }
 
@@ -122,24 +124,30 @@ namespace QuantConnect.Securities.Forex
             List<string> bases  = new List<string>();
             List<string> quotes = new List<string>();
 
-            // find bases
-            foreach (var symbol in Currencies.CurrencySymbols.Keys) {
-                if (currencyPair.Contains(symbol)) {
+            // Find bases
+            foreach (var symbol in Currencies.CurrencySymbols.Keys) 
+            {
+                if (currencyPair.Contains(symbol)) 
+                {
 
-                    if (currencyPair.IndexOf(symbol) == 0) {
+                    if (currencyPair.IndexOf(symbol) == 0) 
+                    {
                         bases.Add(symbol);
-                        //Debug.Log($"Added base {symbol}");
+                        // Debug.Log($"Added base {symbol}");
                     }
                 }
             }
 
-            // find quotes
-            foreach (var symbol in Currencies.CurrencySymbols.Keys) {               
-                if (currencyPair.Contains(symbol)) {
+            // Find quotes
+            foreach (var symbol in Currencies.CurrencySymbols.Keys) 
+            {               
+                if (currencyPair.Contains(symbol)) 
+                {
 
                     int start = currencyPair.IndexOf(symbol, 3);
                     
-                    if (start == 3 || start == 4) {
+                    if (start == 3 || start == 4)
+                    {
                         
                         quotes.Add(symbol);
                         //Debug.Log($"Added quote {symbol}");
@@ -147,14 +155,17 @@ namespace QuantConnect.Securities.Forex
                 }
             }
 
-            // make combinations (combined) and compare to currencyPair
-            foreach(string b in bases) {
-                foreach(string q in quotes) {
+            // Make combinations (combined) and compare to currencyPair
+            foreach(string b in bases) 
+            {
+                foreach(string q in quotes) 
+                {
 
                     string combined = b + q;
 
                     //Debug.Log($"Combination: {combined}");
-                    if (combined.Equals(currencyPair)) {
+                    if (combined.Equals(currencyPair)) 
+                    {
                         baseCurrency = b;
                         quoteCurrency = q;
                         break;
@@ -162,23 +173,29 @@ namespace QuantConnect.Securities.Forex
                 }
             }
 
-            // old-code part for Forex (non-crypto) markets, k
-            if(bases.Count == 0 || quotes.Count == 0) {
-                if(currencyPair.Length == 6) {
+            // Old-code part for Forex (non-crypto) markets
+            if(bases.Count == 0 || quotes.Count == 0) 
+            {
+                if(currencyPair.Length == 6) 
+                {
                     baseCurrency = currencyPair.Substring(0, 3);
                     quoteCurrency = currencyPair.Substring(3);
                     return;
-                } else {
+                } 
+                else 
+                {
 
                     throw new ArgumentException("Couldn't find correct split. The correct symbols don't exist in Currencies.CurrencySymbols or this isn't Forex pair.");
                 }
             }
 
-            if(bases.Count == 0) {
+            if(bases.Count == 0) 
+            {
                 throw new ArgumentException("No base currency found.");
             }
 
-            if (quotes.Count == 0) {
+            if (quotes.Count == 0) 
+            {
                 throw new ArgumentException("No quote currency found.");
             }
             
