@@ -46,7 +46,7 @@ namespace QuantConnect.Tests
         {
             var statistics = new Dictionary<string, string>();
             var alphaStatistics = new AlphaRuntimeStatistics();
-
+            
             Composer.Instance.Reset();
             var ordersLogFile = string.Empty;
             var logFile = $"./regression/{algorithm}.{language.ToLower()}.log";
@@ -71,11 +71,10 @@ namespace QuantConnect.Tests
                         ? "../../../Algorithm.Python/" + algorithm + ".py"
                         : "QuantConnect.Algorithm." + language + ".dll");
 
-
                 var debugEnabled = Log.DebuggingEnabled;
 
-
-                var logHandlers = new ILogHandler[] {new ConsoleLogHandler(), new FileLogHandler(logFile, false)};
+                var logHandlers = new ILogHandler[] { new ConsoleLogHandler(), new FileLogHandler(logFile, false)};
+                
                 using (Log.LogHandler = new CompositeLogHandler(logHandlers))
                 using (var algorithmHandlers = LeanEngineAlgorithmHandlers.FromConfiguration(Composer.Instance))
                 using (var systemHandlers = LeanEngineSystemHandlers.FromConfiguration(Composer.Instance))
@@ -100,7 +99,7 @@ namespace QuantConnect.Tests
 
                     var backtestingResultHandler = (BacktestingResultHandler) algorithmHandlers.Results;
                     statistics = backtestingResultHandler.FinalStatistics;
-
+                    
                     var defaultAlphaHandler = (DefaultAlphaHandler) algorithmHandlers.Alphas;
                     alphaStatistics = defaultAlphaHandler.RuntimeStatistics;
 
@@ -115,7 +114,7 @@ namespace QuantConnect.Tests
             foreach (var stat in expectedStatistics)
             {
                 Assert.AreEqual(true, statistics.ContainsKey(stat.Key), "Missing key: " + stat.Key);
-                Assert.AreEqual(stat.Value, statistics[stat.Key], "Failed on " + stat.Key);
+                Assert.AreEqual(stat.Value, statistics[stat.Key].Replace(',', '.'), "Failed on " + stat.Key);
             }
 
             if (expectedAlphaStatistics != null)

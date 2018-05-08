@@ -34,7 +34,7 @@ namespace QuantConnect.Securities
         /// <summary>
         /// Gets the base currency used
         /// </summary>
-        public const string AccountCurrency = "ETH";
+        public const string AccountCurrency = "USD";
 
         private readonly ConcurrentDictionary<string, Cash> _currencies;
 

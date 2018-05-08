@@ -26,7 +26,7 @@ namespace QuantConnect.Tests
         [Test, TestCaseSource(nameof(GetRegressionTestParameters))]
         public void AlgorithmStatisticsRegression(AlgorithmStatisticsTestParameters parameters)
         {
-            QuantConnect.Configuration.Config.Set("quandl-auth-token", "WyAazVXnq7ATy_fefTqm");
+            QuantConnect.Configuration.Config.Set("quandl-auth-token", "MN-tkrzSQSQ1RkVbN-L4");
             QuantConnect.Configuration.Config.Set("forward-console-messages", "false");
 
             if (parameters.Algorithm == "OptionChainConsistencyRegressionAlgorithm")

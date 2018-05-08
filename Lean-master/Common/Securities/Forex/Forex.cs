@@ -18,6 +18,9 @@ using QuantConnect.Data;
 using QuantConnect.Orders.Fees;
 using QuantConnect.Orders.Fills;
 using QuantConnect.Orders.Slippage;
+using System.Collections.Generic;
+//using QuantConnect.Logging;
+//using System.Linq;
 
 namespace QuantConnect.Securities.Forex 
 {
@@ -106,14 +109,68 @@ namespace QuantConnect.Securities.Forex
         /// <param name="currencyPair">The input currency pair to be decomposed, for example, "EURUSD"</param>
         /// <param name="baseCurrency">The output base currency</param>
         /// <param name="quoteCurrency">The output quote currency</param>
-        public static void DecomposeCurrencyPair(string currencyPair, out string baseCurrency, out string quoteCurrency)
-        {
-            if (currencyPair == null || currencyPair.Length != 6)
-            {
-                throw new ArgumentException("Currency pairs must be exactly 6 characters: " + currencyPair);
+        public static void DecomposeCurrencyPair(string currencyPair, out string baseCurrency, out string quoteCurrency) {
+
+            if (currencyPair == null && currencyPair.Length >= 6 && currencyPair.Length <= 8) {
+                throw new ArgumentException("Currency pairs must not be null, and long minimaly 6 and maximum 8.");
             }
-            baseCurrency = currencyPair.Substring(0, 3);
-            quoteCurrency = currencyPair.Substring(3);
+
+            //Log.LogHandler.Trace($"Splitting {currencyPair}");
+
+            baseCurrency = null;
+            quoteCurrency = null;
+
+            List<string> bases = new List<string>();
+            List<string> quotes = new List<string>();
+
+            // find bases
+            foreach (var symbol in Currencies.CurrencySymbols.Keys) {
+                if (currencyPair.Contains(symbol)) {
+
+                    if (currencyPair.IndexOf(symbol) == 0) {
+                        bases.Add(symbol);
+                        //Log.LogHandler.Trace($"Added base {symbol}");
+                    }
+                }
+            }
+
+            // find quotes
+            foreach (var symbol in Currencies.CurrencySymbols.Keys) {               
+                if (currencyPair.Contains(symbol)) {
+
+                    int start = currencyPair.IndexOf(symbol, 3);
+                    
+                    if (start == 3 || start == 4) {
+                        
+                        quotes.Add(symbol);
+                        //Log.LogHandler.Trace($"Added quote {symbol}");
+                    }
+                }
+            }
+
+            // make combinations
+            foreach(string b in bases) {
+                foreach(string q in quotes) {
+
+                    string combined = b + q;
+
+                    //Log.LogHandler.Trace($"Combination: {combined}");
+                    if (combined.Equals(currencyPair)) {
+                        baseCurrency = b;
+                        quoteCurrency = q;
+                        break;
+                    }
+                }
+            }
+
+            if(bases.Count == 0) {
+                throw new ArgumentException("No proper base currency found.");
+            }
+
+            if (quotes.Count == 0) {
+                throw new ArgumentException("No proper quote currency found.");
+            }
+
         }
     }
 }

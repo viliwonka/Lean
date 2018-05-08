@@ -21,10 +21,9 @@ namespace QuantConnect.Blockchain {
 
         public abstract Transaction PublishTransaction(Wallet wallet);
 
-        // for updating transaction state
+        // for updating transaction state or retrieving history
         public abstract Transaction QueryTransaction(int ID);
 
-        
         public abstract CryptoCash[] QueryHoldings(Wallet wallet);
 
 
