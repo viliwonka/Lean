@@ -28,13 +28,14 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
-
+/*
 namespace QuantConnect.Tests.Brokerages.Kraken
-{/*
+{
+
     [TestFixture]
     public class KrakenBrokerageTests
     {
-        //!TODO - treba je vse podatke dol iz krakena potegnt
+        //! TODO - treba je vse example API response dol iz krakena potegnit
 
         #region Declarations
         KrakenBrokerage _unit;
@@ -416,5 +417,6 @@ namespace QuantConnect.Tests.Brokerages.Kraken
 
             Assert.AreEqual(BrokerageMessageType.Warning, messageType);
         }
-    }*/
+    }
 }
+*/

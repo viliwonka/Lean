@@ -100,6 +100,7 @@
   // kraken configuration
   "kraken-api-secret": "",
   "kraken-api-key": "",
+  "kraken-api-url": "https://api.kraken.com",
 
   // Required to access data from Quandl
   // To get your access token go to https://www.quandl.com/account/api

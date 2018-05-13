@@ -21,16 +21,15 @@ namespace QuantConnect
     /// <summary>
     /// Provides commonly used currency pairs and symbols
     /// </summary>
-    public static class Currencies
-    {
+    public static class Currencies {
         /// <summary>
         /// Gets the listing of crypto pairs used for currency conversion rates
         /// </summary>
         /// <remarks>
         /// It must include all currency pairs needed to resolve quote currencies in <see cref="Cash.EnsureCurrencyDataFeed"/>
         /// </remarks>
-        public static readonly IReadOnlyList<string> CryptoCurrencyPairs = new List<string>(
-            new HashSet<string> {
+        public static readonly IReadOnlyList<string> CryptoCurrencyPairs = new List<string>() {
+
             "BTCUSD",
             "BCHUSD",
             "LTCUSD",
@@ -46,7 +45,23 @@ namespace QuantConnect
             "ICNETH",
             "ICNBTC",
             "USDTUSD",
-        });
+            "ZRXBTC",
+            "ZRXETH",
+            "WANBTC",
+            "WANETH",
+            "RHOCBTC",
+            "RHOCETH",
+            "REQBTC",
+            "REQETH",
+            "RENBTC",
+            "RENETH",
+            "SENTBTC",
+            "SENTETH",
+            "TRXBTC",
+            "TRXETH",
+            "OMGBTC",
+            "OMGETH"
+        };
 
         /// <summary>
         /// Gets the listing of cfds used for currency conversion rates
@@ -261,7 +276,7 @@ namespace QuantConnect
         };
 
         /// <summary>
-        /// A mapping of currency codes to their display symbols
+        /// A mapping of currency codes to their display symbols.
         /// </summary>
         /// <remarks>
         /// Now used by Forex and CFD, should probably be moved out into its own class
@@ -296,17 +311,24 @@ namespace QuantConnect
             {"TRY", "₺"  },
             {"TWD", "NT$"},
             {"ZAR", "R"  },
+          
+            {"BTC",  "฿"  },
+            {"BCH",  "฿"  },
+            {"LTC",  "Ł"  },
+            {"ETH",  "Ξ"  }, 
+            {"EOS",  "Ȅ"  },
+            {"DASH", "Đ"  },
+            {"ICN",  "i"  },
+            {"USDT", "₸"  },
+            {"ZRX",  "0x" },
+            {"REQ",  "Հ"  },
+            {"OMG",  "Ꝺ"  },
+            {"REN",  "░▓" },
+            {"TRX",  "▶"  },
+            {"SENT", "⌂"  },
+            {"WAN",  "Ẅ"  },
+            {"RHOC", "₪"  },
 
-            // alt symbol for BTC Ƀ
-            {"BTC",  "฿" },
-            {"BCH",  "฿" },
-            {"LTC",  "Ł" },
-            {"ETH",  "Ξ" },
-            {"EOS",  "Ȅ" },
-            {"DASH", "Đ" },
-            {"ICN",  "i" },
-            {"USDT", "T" }, //tether
-            
         };
 
         /// <summary>

@@ -332,6 +332,7 @@ namespace QuantConnect.Brokerages.Kraken {
         public override bool UpdateOrder(Order order) {
         
             //! UPDATE ORDER           
+            //todo: maybe make it so, that this broker doesn't support updating orders (because it doesnt)
             bool success = false;
             
             if(CancelOrder(order)) {
@@ -369,7 +370,6 @@ namespace QuantConnect.Brokerages.Kraken {
             foreach(string txid in order.BrokerId) {
 
                 var result = _restApi.CancelOrder(txid);
-
                 sum += result.Count;
             }
 
@@ -381,8 +381,8 @@ namespace QuantConnect.Brokerages.Kraken {
         /// Connects the client to the broker's remote servers
         /// </summary>
         public override void Connect() {
-            
-            //NOP
+
+            // NOP
             //
         }
 
@@ -392,11 +392,6 @@ namespace QuantConnect.Brokerages.Kraken {
         public override void Disconnect() {
 
             // NOP
-        }
-
-        public bool Ping() {
-
-            throw new KrakenException("Ping not implemented yet");
         }
 
         /// <summary>
